@@ -1,0 +1,1267 @@
+{
+ "zweck": "Häufige Handels- und Alltagsnamen → Wirkstoff (Name wie in stamm/wirkstoffe.json). Nur für die Suche.",
+ "quelle": "Eigene Zusammenstellung des Teams aus allgemein bekannten Namen; keine kopierte Datenbank. Gepflegt von Hand.",
+ "lizenz": "CC0 1.0 (eigene Zusammenstellung)",
+ "stand": "2026-11-25",
+ "anzahl": 209,
+ "eintraege": [
+  {
+   "name": "Aspirin",
+   "wirkstoffe": [
+    "Acetylsalicylsäure"
+   ]
+  },
+  {
+   "name": "ASS",
+   "wirkstoffe": [
+    "Acetylsalicylsäure"
+   ]
+  },
+  {
+   "name": "Godamed",
+   "wirkstoffe": [
+    "Acetylsalicylsäure"
+   ]
+  },
+  {
+   "name": "Herz ASS",
+   "wirkstoffe": [
+    "Acetylsalicylsäure"
+   ]
+  },
+  {
+   "name": "Thomapyrin",
+   "wirkstoffe": [
+    "Acetylsalicylsäure"
+   ]
+  },
+  {
+   "name": "Ibuflam",
+   "wirkstoffe": [
+    "Ibuprofen"
+   ]
+  },
+  {
+   "name": "Nurofen",
+   "wirkstoffe": [
+    "Ibuprofen"
+   ]
+  },
+  {
+   "name": "Dolormin",
+   "wirkstoffe": [
+    "Ibuprofen"
+   ]
+  },
+  {
+   "name": "IbuHEXAL",
+   "wirkstoffe": [
+    "Ibuprofen"
+   ]
+  },
+  {
+   "name": "Ibu-ratiopharm",
+   "wirkstoffe": [
+    "Ibuprofen"
+   ]
+  },
+  {
+   "name": "Ibu",
+   "wirkstoffe": [
+    "Ibuprofen"
+   ]
+  },
+  {
+   "name": "Dolo-Puren",
+   "wirkstoffe": [
+    "Ibuprofen"
+   ]
+  },
+  {
+   "name": "ben-u-ron",
+   "wirkstoffe": [
+    "Paracetamol"
+   ]
+  },
+  {
+   "name": "Paracetamol-ratiopharm",
+   "wirkstoffe": [
+    "Paracetamol"
+   ]
+  },
+  {
+   "name": "Captin",
+   "wirkstoffe": [
+    "Paracetamol"
+   ]
+  },
+  {
+   "name": "Mexalen",
+   "wirkstoffe": [
+    "Paracetamol"
+   ]
+  },
+  {
+   "name": "Fiebersaft",
+   "wirkstoffe": [
+    "Paracetamol",
+    "Ibuprofen"
+   ]
+  },
+  {
+   "name": "Fieberzäpfchen",
+   "wirkstoffe": [
+    "Paracetamol",
+    "Ibuprofen"
+   ]
+  },
+  {
+   "name": "Novalgin",
+   "wirkstoffe": [
+    "Metamizol-Natrium"
+   ]
+  },
+  {
+   "name": "Novaminsulfon",
+   "wirkstoffe": [
+    "Metamizol-Natrium"
+   ]
+  },
+  {
+   "name": "Berlosin",
+   "wirkstoffe": [
+    "Metamizol-Natrium"
+   ]
+  },
+  {
+   "name": "Voltaren",
+   "wirkstoffe": [
+    "Diclofenac"
+   ]
+  },
+  {
+   "name": "Diclac",
+   "wirkstoffe": [
+    "Diclofenac"
+   ]
+  },
+  {
+   "name": "Diclo",
+   "wirkstoffe": [
+    "Diclofenac"
+   ]
+  },
+  {
+   "name": "Tramal",
+   "wirkstoffe": [
+    "Tramadol"
+   ]
+  },
+  {
+   "name": "Tramundin",
+   "wirkstoffe": [
+    "Tramadol"
+   ]
+  },
+  {
+   "name": "Valoron",
+   "wirkstoffe": [
+    "Tilidin"
+   ]
+  },
+  {
+   "name": "Palexia",
+   "wirkstoffe": [
+    "Tapentadol"
+   ]
+  },
+  {
+   "name": "Durogesic",
+   "wirkstoffe": [
+    "Fentanyl"
+   ]
+  },
+  {
+   "name": "Oxygesic",
+   "wirkstoffe": [
+    "Oxycodon"
+   ]
+  },
+  {
+   "name": "Arcoxia",
+   "wirkstoffe": [
+    "Etoricoxib"
+   ]
+  },
+  {
+   "name": "Celebrex",
+   "wirkstoffe": [
+    "Celecoxib"
+   ]
+  },
+  {
+   "name": "Lyrica",
+   "wirkstoffe": [
+    "Pregabalin"
+   ]
+  },
+  {
+   "name": "Neurontin",
+   "wirkstoffe": [
+    "Gabapentin"
+   ]
+  },
+  {
+   "name": "L-Thyroxin",
+   "wirkstoffe": [
+    "Levothyroxin"
+   ]
+  },
+  {
+   "name": "Euthyrox",
+   "wirkstoffe": [
+    "Levothyroxin"
+   ]
+  },
+  {
+   "name": "Eferox",
+   "wirkstoffe": [
+    "Levothyroxin"
+   ]
+  },
+  {
+   "name": "Berlthyrox",
+   "wirkstoffe": [
+    "Levothyroxin"
+   ]
+  },
+  {
+   "name": "Thevier",
+   "wirkstoffe": [
+    "Levothyroxin"
+   ]
+  },
+  {
+   "name": "Thyronajod",
+   "wirkstoffe": [
+    "Levothyroxin"
+   ]
+  },
+  {
+   "name": "Thyrozol",
+   "wirkstoffe": [
+    "Thiamazol"
+   ]
+  },
+  {
+   "name": "Favistan",
+   "wirkstoffe": [
+    "Thiamazol"
+   ]
+  },
+  {
+   "name": "Beloc",
+   "wirkstoffe": [
+    "Metoprolol"
+   ]
+  },
+  {
+   "name": "Beloc-Zok",
+   "wirkstoffe": [
+    "Metoprolol"
+   ]
+  },
+  {
+   "name": "Lopresor",
+   "wirkstoffe": [
+    "Metoprolol"
+   ]
+  },
+  {
+   "name": "Concor",
+   "wirkstoffe": [
+    "Bisoprolol"
+   ]
+  },
+  {
+   "name": "Bisoprolol-ratiopharm",
+   "wirkstoffe": [
+    "Bisoprolol"
+   ]
+  },
+  {
+   "name": "Nebilet",
+   "wirkstoffe": [
+    "Nebivolol"
+   ]
+  },
+  {
+   "name": "Blopress",
+   "wirkstoffe": [
+    "Candesartan"
+   ]
+  },
+  {
+   "name": "Atacand",
+   "wirkstoffe": [
+    "Candesartan"
+   ]
+  },
+  {
+   "name": "Diovan",
+   "wirkstoffe": [
+    "Valsartan"
+   ]
+  },
+  {
+   "name": "Provas",
+   "wirkstoffe": [
+    "Valsartan"
+   ]
+  },
+  {
+   "name": "Lorzaar",
+   "wirkstoffe": [
+    "Losartan"
+   ]
+  },
+  {
+   "name": "Micardis",
+   "wirkstoffe": [
+    "Telmisartan"
+   ]
+  },
+  {
+   "name": "Votum",
+   "wirkstoffe": [
+    "Olmesartan"
+   ]
+  },
+  {
+   "name": "Olmetec",
+   "wirkstoffe": [
+    "Olmesartan"
+   ]
+  },
+  {
+   "name": "Delix",
+   "wirkstoffe": [
+    "Ramipril"
+   ]
+  },
+  {
+   "name": "Vesdil",
+   "wirkstoffe": [
+    "Ramipril"
+   ]
+  },
+  {
+   "name": "Xanef",
+   "wirkstoffe": [
+    "Enalapril"
+   ]
+  },
+  {
+   "name": "Norvasc",
+   "wirkstoffe": [
+    "Amlodipin"
+   ]
+  },
+  {
+   "name": "Carmen",
+   "wirkstoffe": [
+    "Lercanidipin"
+   ]
+  },
+  {
+   "name": "HCT",
+   "wirkstoffe": [
+    "Hydrochlorothiazid"
+   ]
+  },
+  {
+   "name": "Esidrix",
+   "wirkstoffe": [
+    "Hydrochlorothiazid"
+   ]
+  },
+  {
+   "name": "Lasix",
+   "wirkstoffe": [
+    "Furosemid"
+   ]
+  },
+  {
+   "name": "Torem",
+   "wirkstoffe": [
+    "Torasemid"
+   ]
+  },
+  {
+   "name": "Aldactone",
+   "wirkstoffe": [
+    "Spironolacton"
+   ]
+  },
+  {
+   "name": "Marcumar",
+   "wirkstoffe": [
+    "Phenprocoumon"
+   ]
+  },
+  {
+   "name": "Falithrom",
+   "wirkstoffe": [
+    "Phenprocoumon"
+   ]
+  },
+  {
+   "name": "Xarelto",
+   "wirkstoffe": [
+    "Rivaroxaban"
+   ]
+  },
+  {
+   "name": "Eliquis",
+   "wirkstoffe": [
+    "Apixaban"
+   ]
+  },
+  {
+   "name": "Lixiana",
+   "wirkstoffe": [
+    "Edoxaban"
+   ]
+  },
+  {
+   "name": "Pradaxa",
+   "wirkstoffe": [
+    "Dabigatranetexilat"
+   ]
+  },
+  {
+   "name": "Plavix",
+   "wirkstoffe": [
+    "Clopidogrel"
+   ]
+  },
+  {
+   "name": "Iscover",
+   "wirkstoffe": [
+    "Clopidogrel"
+   ]
+  },
+  {
+   "name": "Brilique",
+   "wirkstoffe": [
+    "Ticagrelor"
+   ]
+  },
+  {
+   "name": "Sortis",
+   "wirkstoffe": [
+    "Atorvastatin"
+   ]
+  },
+  {
+   "name": "Zocor",
+   "wirkstoffe": [
+    "Simvastatin"
+   ]
+  },
+  {
+   "name": "Crestor",
+   "wirkstoffe": [
+    "Rosuvastatin"
+   ]
+  },
+  {
+   "name": "Ezetrol",
+   "wirkstoffe": [
+    "Ezetimib"
+   ]
+  },
+  {
+   "name": "Digimerck",
+   "wirkstoffe": [
+    "Digitoxin"
+   ]
+  },
+  {
+   "name": "Nitrolingual",
+   "wirkstoffe": [
+    "Nitroglycerin"
+   ]
+  },
+  {
+   "name": "Nitro",
+   "wirkstoffe": [
+    "Nitroglycerin"
+   ]
+  },
+  {
+   "name": "Isoket",
+   "wirkstoffe": [
+    "Isosorbiddinitrat"
+   ]
+  },
+  {
+   "name": "Ozempic",
+   "wirkstoffe": [
+    "Semaglutid"
+   ]
+  },
+  {
+   "name": "Wegovy",
+   "wirkstoffe": [
+    "Semaglutid"
+   ]
+  },
+  {
+   "name": "Rybelsus",
+   "wirkstoffe": [
+    "Semaglutid"
+   ]
+  },
+  {
+   "name": "Mounjaro",
+   "wirkstoffe": [
+    "Tirzepatid"
+   ]
+  },
+  {
+   "name": "Trulicity",
+   "wirkstoffe": [
+    "Dulaglutid"
+   ]
+  },
+  {
+   "name": "Victoza",
+   "wirkstoffe": [
+    "Liraglutid"
+   ]
+  },
+  {
+   "name": "Saxenda",
+   "wirkstoffe": [
+    "Liraglutid"
+   ]
+  },
+  {
+   "name": "Glucophage",
+   "wirkstoffe": [
+    "Metformin"
+   ]
+  },
+  {
+   "name": "Siofor",
+   "wirkstoffe": [
+    "Metformin"
+   ]
+  },
+  {
+   "name": "Januvia",
+   "wirkstoffe": [
+    "Sitagliptin"
+   ]
+  },
+  {
+   "name": "Xelevia",
+   "wirkstoffe": [
+    "Sitagliptin"
+   ]
+  },
+  {
+   "name": "Jardiance",
+   "wirkstoffe": [
+    "Empagliflozin"
+   ]
+  },
+  {
+   "name": "Forxiga",
+   "wirkstoffe": [
+    "Dapagliflozin"
+   ]
+  },
+  {
+   "name": "Lantus",
+   "wirkstoffe": [
+    "Insulin glargin"
+   ]
+  },
+  {
+   "name": "Toujeo",
+   "wirkstoffe": [
+    "Insulin glargin"
+   ]
+  },
+  {
+   "name": "Abasaglar",
+   "wirkstoffe": [
+    "Insulin glargin"
+   ]
+  },
+  {
+   "name": "Levemir",
+   "wirkstoffe": [
+    "Insulin detemir"
+   ]
+  },
+  {
+   "name": "NovoRapid",
+   "wirkstoffe": [
+    "Insulin aspart"
+   ]
+  },
+  {
+   "name": "Fiasp",
+   "wirkstoffe": [
+    "Insulin aspart"
+   ]
+  },
+  {
+   "name": "Humalog",
+   "wirkstoffe": [
+    "Insulin lispro"
+   ]
+  },
+  {
+   "name": "Liprolog",
+   "wirkstoffe": [
+    "Insulin lispro"
+   ]
+  },
+  {
+   "name": "Amaryl",
+   "wirkstoffe": [
+    "Glimepirid"
+   ]
+  },
+  {
+   "name": "Pantozol",
+   "wirkstoffe": [
+    "Pantoprazol"
+   ]
+  },
+  {
+   "name": "Rifun",
+   "wirkstoffe": [
+    "Pantoprazol"
+   ]
+  },
+  {
+   "name": "Antra",
+   "wirkstoffe": [
+    "Omeprazol"
+   ]
+  },
+  {
+   "name": "Nexium",
+   "wirkstoffe": [
+    "Esomeprazol"
+   ]
+  },
+  {
+   "name": "MCP",
+   "wirkstoffe": [
+    "Metoclopramid"
+   ]
+  },
+  {
+   "name": "Paspertin",
+   "wirkstoffe": [
+    "Metoclopramid"
+   ]
+  },
+  {
+   "name": "Imodium",
+   "wirkstoffe": [
+    "Loperamid"
+   ]
+  },
+  {
+   "name": "Movicol",
+   "wirkstoffe": [
+    "Polyethylenglycol"
+   ]
+  },
+  {
+   "name": "Ventolin",
+   "wirkstoffe": [
+    "Salbutamol"
+   ]
+  },
+  {
+   "name": "Sultanol",
+   "wirkstoffe": [
+    "Salbutamol"
+   ]
+  },
+  {
+   "name": "Salbuhexal",
+   "wirkstoffe": [
+    "Salbutamol"
+   ]
+  },
+  {
+   "name": "Spiriva",
+   "wirkstoffe": [
+    "Tiotropiumbromid"
+   ]
+  },
+  {
+   "name": "Singulair",
+   "wirkstoffe": [
+    "Montelukast"
+   ]
+  },
+  {
+   "name": "Pulmicort",
+   "wirkstoffe": [
+    "Budesonid"
+   ]
+  },
+  {
+   "name": "Novopulmon",
+   "wirkstoffe": [
+    "Budesonid"
+   ]
+  },
+  {
+   "name": "Decortin",
+   "wirkstoffe": [
+    "Prednison"
+   ]
+  },
+  {
+   "name": "Decortin H",
+   "wirkstoffe": [
+    "Prednisolon"
+   ]
+  },
+  {
+   "name": "Prednihexal",
+   "wirkstoffe": [
+    "Prednisolon"
+   ]
+  },
+  {
+   "name": "Fortecortin",
+   "wirkstoffe": [
+    "Dexamethason"
+   ]
+  },
+  {
+   "name": "Amoxypen",
+   "wirkstoffe": [
+    "Amoxicillin"
+   ]
+  },
+  {
+   "name": "Infectomox",
+   "wirkstoffe": [
+    "Amoxicillin"
+   ]
+  },
+  {
+   "name": "Amoxihexal",
+   "wirkstoffe": [
+    "Amoxicillin"
+   ]
+  },
+  {
+   "name": "InfectoCillin",
+   "wirkstoffe": [
+    "Phenoxymethylpenicillin"
+   ]
+  },
+  {
+   "name": "Isocillin",
+   "wirkstoffe": [
+    "Phenoxymethylpenicillin"
+   ]
+  },
+  {
+   "name": "Penicillin V",
+   "wirkstoffe": [
+    "Phenoxymethylpenicillin"
+   ]
+  },
+  {
+   "name": "Ciprobay",
+   "wirkstoffe": [
+    "Ciprofloxacin"
+   ]
+  },
+  {
+   "name": "Doxy",
+   "wirkstoffe": [
+    "Doxycyclin"
+   ]
+  },
+  {
+   "name": "Doxyhexal",
+   "wirkstoffe": [
+    "Doxycyclin"
+   ]
+  },
+  {
+   "name": "Klacid",
+   "wirkstoffe": [
+    "Clarithromycin"
+   ]
+  },
+  {
+   "name": "Zithromax",
+   "wirkstoffe": [
+    "Azithromycin"
+   ]
+  },
+  {
+   "name": "Infectocef",
+   "wirkstoffe": [
+    "Cefaclor"
+   ]
+  },
+  {
+   "name": "Panoral",
+   "wirkstoffe": [
+    "Cefaclor"
+   ]
+  },
+  {
+   "name": "Elobact",
+   "wirkstoffe": [
+    "Cefuroxim"
+   ]
+  },
+  {
+   "name": "Zinnat",
+   "wirkstoffe": [
+    "Cefuroxim"
+   ]
+  },
+  {
+   "name": "Monuril",
+   "wirkstoffe": [
+    "Fosfomycin"
+   ]
+  },
+  {
+   "name": "Ritalin",
+   "wirkstoffe": [
+    "Methylphenidat"
+   ]
+  },
+  {
+   "name": "Medikinet",
+   "wirkstoffe": [
+    "Methylphenidat"
+   ]
+  },
+  {
+   "name": "Concerta",
+   "wirkstoffe": [
+    "Methylphenidat"
+   ]
+  },
+  {
+   "name": "Kinecteen",
+   "wirkstoffe": [
+    "Methylphenidat"
+   ]
+  },
+  {
+   "name": "Elvanse",
+   "wirkstoffe": [
+    "Lisdexamfetamin"
+   ]
+  },
+  {
+   "name": "Strattera",
+   "wirkstoffe": [
+    "Atomoxetin"
+   ]
+  },
+  {
+   "name": "Tavor",
+   "wirkstoffe": [
+    "Lorazepam"
+   ]
+  },
+  {
+   "name": "Valium",
+   "wirkstoffe": [
+    "Diazepam"
+   ]
+  },
+  {
+   "name": "Cipralex",
+   "wirkstoffe": [
+    "Escitalopram"
+   ]
+  },
+  {
+   "name": "Cipramil",
+   "wirkstoffe": [
+    "Citalopram"
+   ]
+  },
+  {
+   "name": "Zoloft",
+   "wirkstoffe": [
+    "Sertralin"
+   ]
+  },
+  {
+   "name": "Trevilor",
+   "wirkstoffe": [
+    "Venlafaxin"
+   ]
+  },
+  {
+   "name": "Cymbalta",
+   "wirkstoffe": [
+    "Duloxetin"
+   ]
+  },
+  {
+   "name": "Remergil",
+   "wirkstoffe": [
+    "Mirtazapin"
+   ]
+  },
+  {
+   "name": "Seroquel",
+   "wirkstoffe": [
+    "Quetiapin"
+   ]
+  },
+  {
+   "name": "Zyprexa",
+   "wirkstoffe": [
+    "Olanzapin"
+   ]
+  },
+  {
+   "name": "Risperdal",
+   "wirkstoffe": [
+    "Risperidon"
+   ]
+  },
+  {
+   "name": "Abilify",
+   "wirkstoffe": [
+    "Aripiprazol"
+   ]
+  },
+  {
+   "name": "Lamictal",
+   "wirkstoffe": [
+    "Lamotrigin"
+   ]
+  },
+  {
+   "name": "Keppra",
+   "wirkstoffe": [
+    "Levetiracetam"
+   ]
+  },
+  {
+   "name": "Ergenyl",
+   "wirkstoffe": [
+    "Valproinsäure"
+   ]
+  },
+  {
+   "name": "Orfiril",
+   "wirkstoffe": [
+    "Valproinsäure"
+   ]
+  },
+  {
+   "name": "Timonil",
+   "wirkstoffe": [
+    "Carbamazepin"
+   ]
+  },
+  {
+   "name": "Tegretal",
+   "wirkstoffe": [
+    "Carbamazepin"
+   ]
+  },
+  {
+   "name": "Stilnox",
+   "wirkstoffe": [
+    "Zolpidem"
+   ]
+  },
+  {
+   "name": "Zyrtec",
+   "wirkstoffe": [
+    "Cetirizin"
+   ]
+  },
+  {
+   "name": "Lorano",
+   "wirkstoffe": [
+    "Loratadin"
+   ]
+  },
+  {
+   "name": "Aerius",
+   "wirkstoffe": [
+    "Desloratadin"
+   ]
+  },
+  {
+   "name": "Telfast",
+   "wirkstoffe": [
+    "Fexofenadin"
+   ]
+  },
+  {
+   "name": "Fenistil",
+   "wirkstoffe": [
+    "Dimetinden"
+   ]
+  },
+  {
+   "name": "Zyloric",
+   "wirkstoffe": [
+    "Allopurinol"
+   ]
+  },
+  {
+   "name": "Vigantol",
+   "wirkstoffe": [
+    "Cholecalciferol"
+   ]
+  },
+  {
+   "name": "Dekristol",
+   "wirkstoffe": [
+    "Cholecalciferol"
+   ]
+  },
+  {
+   "name": "Vigantoletten",
+   "wirkstoffe": [
+    "Cholecalciferol"
+   ]
+  },
+  {
+   "name": "Mucosolvan",
+   "wirkstoffe": [
+    "Ambroxol"
+   ]
+  },
+  {
+   "name": "ACC",
+   "wirkstoffe": [
+    "Acetylcystein"
+   ]
+  },
+  {
+   "name": "Fluimucil",
+   "wirkstoffe": [
+    "Acetylcystein"
+   ]
+  },
+  {
+   "name": "Otriven",
+   "wirkstoffe": [
+    "Xylometazolin"
+   ]
+  },
+  {
+   "name": "Olynth",
+   "wirkstoffe": [
+    "Xylometazolin"
+   ]
+  },
+  {
+   "name": "Nasic",
+   "wirkstoffe": [
+    "Xylometazolin"
+   ]
+  },
+  {
+   "name": "Bepanthen",
+   "wirkstoffe": [
+    "Panthenol"
+   ]
+  },
+  {
+   "name": "Fucidine",
+   "wirkstoffe": [
+    "Fusidinsäure"
+   ]
+  },
+  {
+   "name": "EpiPen",
+   "wirkstoffe": [
+    "Adrenalin"
+   ]
+  },
+  {
+   "name": "Fastjekt",
+   "wirkstoffe": [
+    "Adrenalin"
+   ]
+  },
+  {
+   "name": "Jext",
+   "wirkstoffe": [
+    "Adrenalin"
+   ]
+  },
+  {
+   "name": "Emerade",
+   "wirkstoffe": [
+    "Adrenalin"
+   ]
+  },
+  {
+   "name": "Imigran",
+   "wirkstoffe": [
+    "Sumatriptan"
+   ]
+  },
+  {
+   "name": "Maxalt",
+   "wirkstoffe": [
+    "Rizatriptan"
+   ]
+  },
+  {
+   "name": "Kreon",
+   "wirkstoffe": [
+    "Pankreatin"
+   ]
+  },
+  {
+   "name": "Pangrol",
+   "wirkstoffe": [
+    "Pankreatin"
+   ]
+  },
+  {
+   "name": "Pankreatan",
+   "wirkstoffe": [
+    "Pankreatin"
+   ]
+  },
+  {
+   "name": "Lantarel",
+   "wirkstoffe": [
+    "Methotrexat"
+   ]
+  },
+  {
+   "name": "Metex",
+   "wirkstoffe": [
+    "Methotrexat"
+   ]
+  },
+  {
+   "name": "Humira",
+   "wirkstoffe": [
+    "Adalimumab"
+   ]
+  },
+  {
+   "name": "Hyrimoz",
+   "wirkstoffe": [
+    "Adalimumab"
+   ]
+  },
+  {
+   "name": "Amgevita",
+   "wirkstoffe": [
+    "Adalimumab"
+   ]
+  },
+  {
+   "name": "Arimidex",
+   "wirkstoffe": [
+    "Anastrozol"
+   ]
+  },
+  {
+   "name": "Femara",
+   "wirkstoffe": [
+    "Letrozol"
+   ]
+  },
+  {
+   "name": "Alna",
+   "wirkstoffe": [
+    "Tamsulosin"
+   ]
+  },
+  {
+   "name": "Omnic",
+   "wirkstoffe": [
+    "Tamsulosin"
+   ]
+  },
+  {
+   "name": "Viagra",
+   "wirkstoffe": [
+    "Sildenafil"
+   ]
+  },
+  {
+   "name": "Cialis",
+   "wirkstoffe": [
+    "Tadalafil"
+   ]
+  },
+  {
+   "name": "Proscar",
+   "wirkstoffe": [
+    "Finasterid"
+   ]
+  },
+  {
+   "name": "Utrogest",
+   "wirkstoffe": [
+    "Progesteron"
+   ]
+  },
+  {
+   "name": "Sultanol forte",
+   "wirkstoffe": [
+    "Salbutamol"
+   ]
+  },
+  {
+   "name": "Atrovent",
+   "wirkstoffe": [
+    "Ipratropiumbromid"
+   ]
+  },
+  {
+   "name": "Berotec",
+   "wirkstoffe": [
+    "Fenoterol"
+   ]
+  },
+  {
+   "name": "Cotrim",
+   "wirkstoffe": [
+    "Sulfamethoxazol",
+    "Trimethoprim"
+   ]
+  },
+  {
+   "name": "Eusaprim",
+   "wirkstoffe": [
+    "Sulfamethoxazol",
+    "Trimethoprim"
+   ]
+  }
+ ]
+}

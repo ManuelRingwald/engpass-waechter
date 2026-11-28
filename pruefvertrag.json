@@ -1,0 +1,79 @@
+{
+  "hinweis": "Prüfvertrag für die Prüfungen in tests/ (siehe tests/PRUEFUNGEN.md und tests/AENDERUNGEN.md). Die App zeigt daraus auch die Quellen und Lizenzen an.",
+  "quellen": [
+    {
+      "id": "bfarm",
+      "name": "BfArM – Lieferengpassmeldungen (PharmNet.Bund)",
+      "hosts": [],
+      "lizenz": "Nutzung nach § 4 Datennutzungsgesetz",
+      "lizenzUrl": "https://www.gesetze-im-internet.de/dng/__4.html",
+      "url": "https://anwendungen.pharmnet-bund.de/lieferengpassmeldungen/faces/public/meldungen.xhtml",
+      "hinweis": "Täglicher Spiegel der öffentlichen CSV des BfArM, ohne Telefonnummern und E-Mail-Adressen. Die Tagesdaten liegen beim App-Host (deshalb hier „gebündelt“). Impfstoffe fehlen (zuständig: Paul-Ehrlich-Institut).",
+      "gebuendelt": true,
+      "maxAlterStunden": 48
+    },
+    {
+      "id": "rki",
+      "name": "Robert Koch-Institut – Influenza- und RSV-Fälle nach IfSG",
+      "hosts": [
+        "raw.githubusercontent.com"
+      ],
+      "lizenz": "CC BY 4.0",
+      "lizenzUrl": "https://creativecommons.org/licenses/by/4.0/deed.de",
+      "url": "https://github.com/robert-koch-institut/Influenzafaelle_in_Deutschland",
+      "hinweis": "Kleiner Zusatz: wöchentliche Meldefälle je Bundesland. Verändert: Die App wählt die Werte für alle Altersgruppen der letzten und vorletzten Meldewoche aus und vergleicht sie; nicht vom RKI geprüft. Live abgefragt; das gewählte Bundesland verlässt das Gerät nicht (es wird immer die ganze Tabelle geladen).",
+      "gebuendelt": false,
+      "maxAlterStunden": 504
+    },
+    {
+      "id": "wikidata",
+      "name": "Wikidata – Wirkstoffe mit ATC-Code",
+      "hosts": [],
+      "lizenz": "CC0 1.0",
+      "lizenzUrl": "https://creativecommons.org/publicdomain/zero/1.0/deed.de",
+      "url": "https://www.wikidata.org/wiki/Property:P267",
+      "hinweis": "Wirkstoffnamen, Synonyme und ATC-Codes für die Suche, in die App gebündelt. Verändert: Stereo-Vorsilben wie „(RS)-“ im Anzeigenamen entfernt (Originalname bleibt als Synonym).",
+      "gebuendelt": true,
+      "maxAlterStunden": 87600
+    },
+    {
+      "id": "handelsnamen",
+      "name": "Handelsnamen für die Suche – eigene Zusammenstellung",
+      "hosts": [],
+      "lizenz": "CC0 1.0 (eigene Zusammenstellung)",
+      "lizenzUrl": "https://creativecommons.org/publicdomain/zero/1.0/deed.de",
+      "url": "",
+      "hinweis": "Rund 200 häufige Handels- und Alltagsnamen (z. B. „Aspirin“ → Acetylsalicylsäure), vom Team aus allgemein bekannten Namen zusammengestellt; keine kopierte Datenbank. Datei stamm/handelsnamen.json.",
+      "gebuendelt": true,
+      "maxAlterStunden": 87600
+    },
+    {
+      "id": "atc-gruppen",
+      "name": "Oberbegriffe für die Suche – eigene Zuordnung zu ATC-Gruppen (WHO)",
+      "hosts": [],
+      "lizenz": "CC0 1.0 (eigene Zusammenstellung)",
+      "lizenzUrl": "https://creativecommons.org/publicdomain/zero/1.0/deed.de",
+      "url": "https://atcddd.fhi.no/atc/structure_and_principles/",
+      "hinweis": "Rund ein Dutzend Alltagsbegriffe wie „Blutdrucksenker“ oder „Antibiotikum“, vom Team Gruppen des ATC-Systems der WHO (Collaborating Centre for Drug Statistics Methodology) zugeordnet, z. B. Blutdrucksenker → C02, C03, C07, C08, C09. Nur die Gliederung wird genutzt; die ATC-Codes der Meldungen stammen vom BfArM. Datei stamm/regeln.json → oberbegriffe.",
+      "gebuendelt": true,
+      "maxAlterStunden": 87600
+    },
+    {
+      "id": "osm",
+      "name": "OpenStreetMap – Apotheken, PLZ-Gebiete und Orte (wöchentlich gespiegelt)",
+      "hosts": [],
+      "lizenz": "ODbL 1.0",
+      "lizenzUrl": "https://opendatacommons.org/licenses/odbl/1-0/",
+      "url": "https://www.openstreetmap.org/copyright",
+      "hinweis": "Daten © OpenStreetMap-Mitwirkende (ODbL). Einmal pro Woche per Overpass gespiegelt und mit der App vom eigenen Host geladen; zur Laufzeit keine Abfrage bei OpenStreetMap, der Standort verlässt das Gerät nicht. Die abgeleiteten Dateien apotheken.json und orte.json (Mittelpunkte der PLZ-Gebiete und Orte für die Suche nach PLZ oder Ort) stehen selbst unter der ODbL. Öffnungszeiten ohne Gewähr, keine Angaben über Vorräte.",
+      "gebuendelt": true,
+      "maxAlterStunden": 504
+    }
+  ],
+  "kernnutzenPfad": [],
+  "suchePfad": [],
+  "lizenzenPfad": [
+    "[data-testid=tab-mehr]",
+    "[data-testid=lizenzen-oeffnen]"
+  ]
+}

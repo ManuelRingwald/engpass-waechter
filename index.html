@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="de" dir="ltr">
+    <head>
+        <meta charset="utf-8" />
+        <!-- Content-Security-Policy (#51): only own files; data from our own origin, live figures from the RKI
+             (raw.githubusercontent.com, see pruefvertrag.json); no inline scripts, no eval, no plugins, no forms. -->
+        <meta
+            http-equiv="Content-Security-Policy"
+            content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self' https://raw.githubusercontent.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-title" content="Engpass-Wächter" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="theme-color" content="#faf6f0" />
+        <meta
+            name="description"
+            content="Lieferengpässe bei Medikamenten – ruhig erklärt, auf Basis der Meldungen beim BfArM."
+        />
+        <link rel="manifest" href="manifest.webmanifest" />
+        <link rel="apple-touch-icon" href="symbole/symbol-180.png" />
+        <link rel="icon" href="symbole/symbol-192.png" />
+        <link rel="stylesheet" href="stil.css" />
+        <script src="thema.js"></script>
+        <title>Engpass-Wächter</title>
+    </head>
+    <body>
+        <!-- Permanent, empty status region for screen readers (#22, WCAG 4.1.3): feedback is written into it. Outside
+             the content and the bar, so it is still heard while a sheet makes them inert. -->
+        <div id="ansage" class="nur-vorlesen" role="status" aria-live="polite"></div>
+        <main id="inhalt" class="inhalt">
+            <!-- „Neue Version da.“ in the content, not in the fixed bar (#22): it takes no room there at large text. -->
+            <div class="neue-version" id="neue-version" hidden>
+                <p class="neue-version-text">Neue Version da.</p>
+                <div class="neue-version-knoepfe">
+                    <button type="button" class="link-knopf" id="neue-version-spaeter">
+                        Später
+                    </button>
+                    <button type="button" class="knopf" id="neue-version-laden">Jetzt laden</button>
+                </div>
+            </div>
+            <div class="hinweise" aria-live="polite">
+                <p class="balken" data-testid="offline-hinweis" role="status" hidden></p>
+                <p class="balken" data-testid="hinweis-ausfall" role="status" hidden></p>
+            </div>
+
+            <section data-testid="kernnutzen" id="kern" class="kern"></section>
+
+            <section id="mehr" class="mehr" aria-labelledby="mehr-titel" hidden>
+                <h1 id="mehr-titel" class="titel">Mehr</h1>
+                <div class="karte">
+                    <h2 class="zwischentitel" id="thema-titel">Erscheinungsbild</h2>
+                    <div class="segment" role="group" aria-labelledby="thema-titel">
+                        <button type="button" data-thema="auto" aria-pressed="true">
+                            Automatisch
+                        </button>
+                        <button type="button" data-thema="hell" aria-pressed="false">Hell</button>
+                        <button type="button" data-thema="dunkel" aria-pressed="false">
+                            Dunkel
+                        </button>
+                    </div>
+                </div>
+                <div class="karte">
+                    <h2 class="zwischentitel" id="karte-titel">Karten-App für „Route“</h2>
+                    <div class="segment" role="group" aria-labelledby="karte-titel">
+                        <button type="button" data-karte="apple" aria-pressed="false">
+                            Apple Karten
+                        </button>
+                        <button type="button" data-karte="google" aria-pressed="false">
+                            Google Maps
+                        </button>
+                        <button type="button" data-karte="fragen" aria-pressed="true">
+                            Jedes Mal fragen
+                        </button>
+                    </div>
+                    <p class="leise karte-hinweis">
+                        „Jedes Mal fragen“ zeigt die Auswahl bei jeder Route.
+                    </p>
+                </div>
+                <div class="karte liste">
+                    <ul class="zeilen">
+                        <li>
+                            <button type="button" class="zeile" id="apotheken-oeffnen">
+                                <svg class="sym vorne" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path
+                                        d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"
+                                    />
+                                    <circle cx="12" cy="9.5" r="2.5" />
+                                </svg>
+                                <span class="mitte"
+                                    ><span class="name">Apotheken in der Nähe</span></span
+                                >
+                                <svg class="sym spiegeln" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M9 5l7 7-7 7" />
+                                </svg>
+                            </button>
+                        </li>
+                        <li>
+                            <button
+                                type="button"
+                                class="zeile"
+                                id="erklaerung-oeffnen"
+                                aria-expanded="false"
+                                aria-controls="erklaerung"
+                            >
+                                <svg class="sym vorne" viewBox="0 0 24 24" aria-hidden="true">
+                                    <circle cx="12" cy="12" r="9" />
+                                    <path d="M12 11v6M12 7.5v.01" />
+                                </svg>
+                                <span class="mitte"
+                                    ><span class="name">Was bedeutet „Lieferengpass“?</span></span
+                                >
+                                <svg class="sym spiegeln" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M9 5l7 7-7 7" />
+                                </svg>
+                            </button>
+                            <section
+                                id="erklaerung"
+                                class="ausklapp-inhalt"
+                                aria-labelledby="erklaerung-oeffnen"
+                                hidden
+                            ></section>
+                        </li>
+                        <li>
+                            <button
+                                type="button"
+                                class="zeile"
+                                data-testid="lizenzen-oeffnen"
+                                id="lizenzen-oeffnen"
+                                aria-expanded="false"
+                                aria-controls="lizenzen"
+                            >
+                                <svg class="sym vorne" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M5 4h10l4 4v12H5z" />
+                                    <path d="M9 12h6M9 16h6" />
+                                </svg>
+                                <span class="mitte"
+                                    ><span class="name">Quellen und Lizenzen</span></span
+                                >
+                                <svg class="sym spiegeln" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M9 5l7 7-7 7" />
+                                </svg>
+                            </button>
+                            <section
+                                id="lizenzen"
+                                data-testid="lizenzen"
+                                class="ausklapp-inhalt"
+                                aria-labelledby="lizenzen-oeffnen"
+                                hidden
+                            ></section>
+                        </li>
+                    </ul>
+                </div>
+                <p class="version leise" id="version"></p>
+                <details class="aufklapp was-neu" id="was-neu" hidden>
+                    <summary><h2 class="aufklapp-titel">Was ist neu?</h2></summary>
+                    <div id="was-neu-liste"></div>
+                </details>
+            </section>
+
+            <p data-testid="stand" id="stand" class="stand"></p>
+
+            <section id="ansicht-suche" class="ansicht-suche" aria-labelledby="suche-titel" hidden>
+                <h1 id="suche-titel" class="nur-vorlesen">Suchen</h1>
+                <div id="such-leer"></div>
+                <ul id="treffer" class="treffer" aria-label="Treffer"></ul>
+            </section>
+        </main>
+
+        <div class="dock" id="dock">
+            <div class="dock-innen">
+                <form class="suchleiste" id="suchleiste" role="search" action="#">
+                    <label for="suche" class="nur-vorlesen"
+                        >Medikament, Wirkstoff oder PZN suchen</label
+                    >
+                    <div class="suchfeld">
+                        <svg class="sym" viewBox="0 0 24 24" aria-hidden="true">
+                            <circle cx="11" cy="11" r="7" />
+                            <path d="M20 20l-3.5-3.5" />
+                        </svg>
+                        <input
+                            id="suche"
+                            data-testid="such-feld"
+                            type="search"
+                            inputmode="search"
+                            enterkeyhint="search"
+                            autocomplete="off"
+                            autocapitalize="off"
+                            autocorrect="off"
+                            spellcheck="false"
+                            placeholder="Name, Wirkstoff oder PZN"
+                        />
+                        <button
+                            type="button"
+                            class="loeschen"
+                            id="suche-loeschen"
+                            aria-label="Suche löschen"
+                            hidden
+                        >
+                            <svg class="sym" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M7 7l10 10M17 7L7 17" />
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+                <div class="aktionsleiste" id="aktionsleiste" hidden>
+                    <button type="button" class="knopf zweit" id="zurueck">
+                        <svg class="sym spiegeln" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M15 5l-7 7 7 7" /></svg
+                        >Zurück
+                    </button>
+                    <button type="button" class="knopf" id="merken">
+                        <svg class="sym" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M6 3.5h12v17l-6-4-6 4z" /></svg
+                        ><span id="merken-wort">Merken</span>
+                    </button>
+                    <button type="button" class="knopf" id="haupt" hidden>Alle überwachen</button>
+                </div>
+                <nav class="tabs" aria-label="Bereiche">
+                    <button
+                        type="button"
+                        class="tab"
+                        data-tab="meine"
+                        data-testid="tab-meine"
+                        aria-current="page"
+                    >
+                        <span class="pille"
+                            ><svg class="sym" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M6 3.5h12v17l-6-4-6 4z" /></svg></span
+                        ><span class="wort">Meine</span>
+                    </button>
+                    <button type="button" class="tab" data-tab="suchen" data-testid="tab-suchen">
+                        <span class="pille"
+                            ><svg class="sym" viewBox="0 0 24 24" aria-hidden="true">
+                                <circle cx="11" cy="11" r="7" />
+                                <path d="M20 20l-3.5-3.5" /></svg></span
+                        ><span class="wort">Suchen</span>
+                    </button>
+                    <button type="button" class="tab" data-tab="neu" data-testid="tab-neuigkeiten">
+                        <span class="pille"
+                            ><svg class="sym" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 1.5h-15z" />
+                                <path d="M10 21h4" /></svg></span
+                        ><span class="wort">Neuigkeiten</span>
+                    </button>
+                    <button type="button" class="tab" data-tab="mehr" data-testid="tab-mehr">
+                        <span class="pille"
+                            ><svg class="sym" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M4 7h16M4 12h16M4 17h16" /></svg></span
+                        ><span class="wort">Mehr</span>
+                    </button>
+                </nav>
+            </div>
+        </div>
+        <script src="staerke.js"></script>
+        <script src="einordnung.js"></script>
+        <script src="oeffnungszeiten.js"></script>
+        <script type="module" src="app.js"></script>
+    </body>
+</html>

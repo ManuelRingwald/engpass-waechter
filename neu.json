@@ -1,0 +1,104 @@
+{
+  "zweck": "Was ist neu – kurze Stichpunkte je App-Stand in einfacher Sprache (Du-Form, ohne Fachbegriffe und Ticketnummern). Jede Etappe ergänzt oben einen Eintrag. Zuordnung: Die App liest Commit und Zeit (UTC) aus ihrem Versionsnamen (werkzeuge/version.sh). Ein Eintrag mit „version“ (Kurz-Commit) passt genau zu diesem Stand; sonst gilt der neueste Eintrag, dessen „datum“ (UTC) nicht nach der Zeit der Version liegt. „datum“ ist der Beginn der Etappe, mindestens aber später als der neueste Eintrag auf main – damit Einträge paralleler Etappen sicher erscheinen –, und früher als ihr letzter Commit in docs/.",
+  "eintraege": [
+    {
+      "datum": "2026-11-28T10:45Z",
+      "punkte": [
+        "In „Meine“ ist jedes Medikament eine eigene Kachel. Wisch eine Kachel nach links, um sie zu entfernen – mit „Rückgängig“, falls es ein Versehen war.",
+        "Halt eine Kachel gedrückt und zieh sie an eine andere Stelle, um die Reihenfolge zu ändern. Oder tipp auf „Bearbeiten“.",
+        "Die Leiste unten bleibt jetzt unten, auch wenn du ganz nach unten scrollst."
+      ]
+    },
+    {
+      "datum": "2026-11-28T10:10Z",
+      "punkte": [
+        "Unter „Mehr“ kannst du eine Datei mit Testdaten laden. Sie bleibt nur auf deinem iPhone und zeigt dir Name, Wirkstoff, Stärke und Packung auch für Packungen ohne Meldung – gekennzeichnet mit „Aus Testdaten“.",
+        "Ob es einen Engpass gibt, sagen weiterhin nur die Meldungen beim BfArM."
+      ]
+    },
+    {
+      "datum": "2026-11-28T09:20Z",
+      "punkte": ["Das Scannen der PZN klappt jetzt zuverlässiger."]
+    },
+    {
+      "datum": "2026-11-28T07:00Z",
+      "punkte": [
+        "Tipp die PZN von deiner Packung einfach in die Suche. Die App zeigt dir, wie viele Ziffern noch fehlen, und schlägt ab 4 Ziffern passende gemeldete Packungen vor.",
+        "Neben dem Suchfeld kannst du jetzt direkt deine Packung scannen.",
+        "Gibt es zu deiner PZN keine Meldung, kannst du die Packung trotzdem merken – mit einem Namen, den du selbst wählst.",
+        "Auch bei einem Wirkstoff ohne Meldung kommst du jetzt zur PZN-Eingabe und zum Scannen."
+      ]
+    },
+    {
+      "datum": "2026-11-27T21:55Z",
+      "punkte": [
+        "Apotheken findest du jetzt auch mit PLZ und Ort zusammen, zum Beispiel „65239 Hochheim“. Gibt es einen Ort mehrmals, merkt sich die App deine Wahl.",
+        "Tippst du bei den Apotheken auf „ändern“ oder nutzt deinen Standort, vergisst die App den alten Ort.",
+        "Besser mit VoiceOver: Nach jedem Wechsel landest du auf der Überschrift. Rückmeldungen und die Zahl der Treffer werden angesagt.",
+        "Bei großer Schrift zeigt die Leiste unten nur Symbole und braucht weniger Platz. Der Bereich, in dem du bist, ist fett und ausgefüllt.",
+        "„Neue Version da.“ steht jetzt oben auf der Seite statt in der Leiste.",
+        "Zum Ausprobieren: „Packung scannen“ liest den PZN-Strichcode mit der Kamera. Das Bild bleibt auf deinem iPhone."
+      ]
+    },
+    {
+      "datum": "2026-11-27T20:25Z",
+      "punkte": [
+        "Öffnest du gleich nach dem Start die Apotheken, die Auswahl der Stärke oder die PZN-Eingabe, bleibt die Ansicht offen; Stärke-Auswahl und PZN-Eingabe zeigen gleich die frisch geladenen Meldungen. Was du eingegeben hast, bleibt stehen."
+      ]
+    },
+    {
+      "datum": "2026-11-27T16:00Z",
+      "punkte": [
+        "Apotheken findest du jetzt auch über PLZ oder Ortsnamen – sortiert nach Entfernung, auch wenn bei einer Apotheke keine Adresse eingetragen ist.",
+        "Nennen die Meldungen keine Einheit, zeigt die Frage nach der Stärke nur die Zahl und sagt dir, was meist auf der Packung steht.",
+        "Tippst du auf dein Medikament, während die App neue Daten lädt, geht der Tipp nicht mehr verloren.",
+        "Besser bedienbar mit VoiceOver, Tastatur und großer Schrift: Das Fenster für die Route lässt sich sauber schließen und wird nicht mehr abgeschnitten."
+      ]
+    },
+    {
+      "datum": "2026-11-26T21:00Z",
+      "punkte": [
+        "Neu: Apotheken in deiner Nähe – mit Öffnungszeiten, Anruf und Route. Dein Standort bleibt auf deinem iPhone.",
+        "Nachts, am Wochenende und an Feiertagen findest du dort auch den Weg zur Notdienst-Apotheke."
+      ]
+    },
+    {
+      "datum": "2026-11-26T20:31Z",
+      "punkte": [
+        "Du kannst jetzt Schritt für Schritt Stärke und Form wählen und siehst genau die gemeldeten Produkte.",
+        "Dein eigenes Produkt merkst du dir über die Nummer auf der Packung (PZN) – mit einem Namen, den du selbst wählst."
+      ]
+    },
+    {
+      "datum": "2026-11-26T20:17Z",
+      "punkte": [
+        "Hast du die App länger nicht geöffnet, siehst du jetzt alles, was seit deinem letzten Besuch neu ist."
+      ]
+    },
+    {
+      "datum": "2026-11-26T19:45Z",
+      "punkte": [
+        "Der Hinweis auf eine neue Version ist kleiner und passt in eine Zeile.",
+        "Nach einer Aktualisierung zeigt dir die App einmal kurz, was neu ist."
+      ]
+    },
+    {
+      "datum": "2026-11-26T18:21Z",
+      "punkte": [
+        "Statt „bitte vergleichen“ nennt die App das gemeldete Produkt – mit Name, Form und Nummer von der Packung.",
+        "Präparate, in denen dein Wirkstoff zusammen mit anderen steckt, und andere Formen wie Zäpfchen stehen getrennt.",
+        "Du kannst auch nach Oberbegriffen wie „Blutdrucksenker“ oder „Antibiotikum“ suchen.",
+        "Ist ein erwartetes Ende schon vorbei, steht das jetzt dabei.",
+        "Gibt es eine neue Version, sagt dir die App Bescheid. Du entscheidest, wann sie lädt."
+      ]
+    },
+    {
+      "datum": "2026-11-26T12:59Z",
+      "punkte": [
+        "Neues Aussehen in warmem Pflaume.",
+        "Alles Wichtige bedienst du unten mit dem Daumen: Suche und die Leiste mit Meine, Suchen, Neuigkeiten und Mehr.",
+        "Hell oder dunkel kannst du unter „Mehr“ wählen."
+      ]
+    }
+  ]
+}

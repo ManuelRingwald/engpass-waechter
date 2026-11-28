@@ -1,0 +1,871 @@
+{
+  "schema": 1,
+  "zweck": "Regeln und Texte des Engpass-Wächters. Gemeinsame Grundlage für Web-App und spätere Swift-App. Platzhalter in {geschweiften Klammern}.",
+  "grundsaetze": [
+    "Wirkstoff vor Präparat: Ergebnis zuerst je Wirkstoff, gegliedert nach Stärke und Darreichungsform; PZN nur als Zusatz.",
+    "Beruhigen statt alarmieren: immer „gemeldet beim BfArM“, nie Aussagen über Lieferbarkeit in der Apotheke.",
+    "Kein Anreiz zum Vorratskauf; höchstens „rechtzeitig um das nächste Rezept kümmern“.",
+    "Keine medizinische Beratung, keine Therapieempfehlung; Verweis auf Apotheke und Arztpraxis.",
+    "Lücken offen nennen: Impfstoffe (PEI) fehlen, Meldungen können verspätet sein."
+  ],
+  "verboteneWoerter": [
+    "verfügbar",
+    "lieferbar",
+    "vorrat",
+    "hamstern",
+    "bevorraten",
+    "absetzen",
+    "ausverkauft"
+  ],
+  "abgleich": {
+    "pznSuche": { "mindestZiffern": 4, "hoechstensVorschlaege": 8 },
+    "normalisieren": "Kleinbuchstaben; Zusätze wie „(Ph.Eur.)“ entfernen; Bindestriche und Leerzeichen vereinheitlichen.",
+    "wirkstoffTrifftMeldung": [
+      "ATC-Code der Meldung ist einer der ATC-Codes des Wirkstoffs (genaue Übereinstimmung, 7 Zeichen), oder",
+      "ein Bestandteil des Feldes „wirkstoffe“ der Meldung (getrennt durch „;“) beginnt mit dem normalisierten Wirkstoffnamen oder einem Synonym (mindestens 5 Zeichen) und der Rest ist leer, beginnt mit einem Nicht-Buchstaben oder mit einer Endung aus „salzEndungen“ (z. B. „Fingolimod“ ↔ „Fingolimodhydrochlorid“, aber nicht „Dinoprost“ ↔ „Dinoproston“)."
+    ],
+    "kombination": "Mehr als ein (gekürzt verschiedener) Bestandteil im Feld „wirkstoffe“ → Kombinationspräparat. Ausnahme: Die Meldung trägt genau einen ATC-Code und dieser gehört zum eigenen Eintrag (z. B. Cotrimoxazol J01EE01) – dann ist die Kombination das eigene Medikament. Kombinationen zählen nicht als Treffer für einen Einzelwirkstoff, sondern werden getrennt gezeigt: „Kombination mit Codein und Coffein“. Gibt die Person selbst eine Stärke mit mehreren Zahlen an („2,5/0,625 mg“), nimmt sie ein Kombinationspräparat: Dann wird eine Kombination nicht abgetrennt, sondern wie jede Meldung über Stärke und Form eingeordnet.",
+    "staerke": "Implementiert in docs/staerke.js. (1) Erste Angabe Zahl + Einheit im Präparatenamen: mg, µg (auch „Mikrogramm“, „mcg“), g, ml, mmol, I.E., Mio. I.E., Einheiten (auch „Ph.Eur.-Einheiten“, „E.“), Mega, %; optional „/ Zahl Einheit“ oder „/h“, „/24 Stunden“, „/Hub“, „/Dosis“. Tausender „40 000“ = „40.000“ = 40000. (2) Sonst eine alleinstehende Zahl (auch „5/12,5“), z. B. „Thevier 100“ → „100 (Einheit nicht angegeben)“; „1 A Pharma“ zählt nicht. (3) Sonst: keine Stärke erkennbar. Abschluss: Steht vor der Stärke schon eine andere Zahl, ist die Einheit unbekannt (z. B. „Xy.“, „…/“) oder ist die einzige Angabe ein Volumen („2 ml“), gilt die Stärke als „unklar“ – nie die nächstbeste Zahl. „Mio.E“ = Mio. I.E.",
+    "gruppe": "Meldungen eines Wirkstoffs werden nach (Stärke, Darreichungsform) gruppiert.",
+    "hersteller": "Anzahl verschiedener Zulassungsinhaber unter den Meldungen. Die Gesamtzahl der Anbieter eines Wirkstoffs steht nicht in den Daten.",
+    "pzn": "Genau 8 Ziffern mit gültiger Prüfziffer (Modulo 11). Platzhalter 00000000 und 99999999 zählen nicht.",
+    "formGruppe": "Darreichungsform normalisieren, dann die erste Gruppe aus „formGruppen“ (Reihenfolge beachten), deren Muster als Teilzeichenkette vorkommt; sonst „Sonstige“. Retard- und magensaftresistente Formen sind eigene Gruppen, weil sie nicht austauschbar sind.",
+    "auswahl": "Eigene Auswahl je Wirkstoff: Stärke (Zahl + Einheit) und Form-Gruppe. Jede Meldung des Wirkstoffs ist „passt“, „unklar“ oder „andere“. Vergleich in docs/staerke.js → vergleiche: Zahl und Einheit vereinheitlichen (ug/mcg/Mikrogramm → µg; IE/I.E./E/Einheiten → Einheiten; Mega/Mio. I.E. → Mio. Einheiten; Hub/Sprühstoß/Dosis → je Dosis; 16,0 = 16) und umrechnen (g/mg/µg; „250 mg/5 ml“ = „50 mg/ml“). „Andere“ nur, wenn beide Angaben dieselbe Größe haben und sicher verschieden sind. „Unklar“: Stärke der Meldung nicht (sicher) lesbar; Eingabe oder Meldung ohne Einheit und verschiedene Zahlen (ohne Einheit entsteht nie „andere“); Masse gegen Konzentration oder Rate (z. B. „60 mg“ gegen „6 mg/ml“) bei verschiedenen Werten; Kombinationssumme (960 bei 800/160) oder Übereinstimmung mit einem späteren Bestandteil; Faktor 1000 bei gleicher Größe; verschiedene Größen (z. B. mg gegen I.E.); verschiedene Bezüge (je h gegen je Hub); eine Seite ohne Einheit und die Zahlen unterscheiden sich um den Faktor 1000; gleiche Zahl, aber andere Einheit (vermutlich ein Versehen). Nur eine Zahl ohne Einheit: gleiche Zahl genügt. Kombinationen: alle Bestandteile vergleichen; nennt nur eine Seite mehrere, zählt der erste. Form: bekannt und verschieden → „andere Form“ (nie „unklar“); nicht angegeben oder außerhalb der Formgruppen → unklar. Siehe „einordnung“.",
+    "zaehlweise": "Hauptaussage je Wirkstoff bzw. Auswahl: „betroffen: X Stärken bzw. Formen von Y Herstellern“; die Zahl der Meldungen (= Packungen/PZN) nur in Klammern. X = Zahl der Gruppen (Stärke, Darreichungsform), Y = verschiedene Zulassungsinhaber.",
+    "beruhigung": "Der Text „lieferVsVersorgung“ erscheint in der ersten Sitzung ausführlich, ab dem nächsten Start nur noch aufklappbar unter „Was heißt das?“.",
+    "seitLetztemBlick": "Je eigenem Wirkstoff merkt sich das Gerät beim Ansehen die Kennungen und erwarteten Enden der passenden Meldungen. Beim nächsten Öffnen: neu = Kennung nicht gemerkt, nicht mehr gemeldet = gemerkt, aber fehlt, verschoben = erwartetes Ende anders.",
+    "salzEndungen": [
+      "hydrochlorid",
+      "dihydrochlorid",
+      "hydrobromid",
+      "hydrogentartrat",
+      "tartrat",
+      "acetat",
+      "acetonid",
+      "besilat",
+      "citrat",
+      "fumarat",
+      "hemifumarat",
+      "maleat",
+      "nitrat",
+      "mononitrat",
+      "phosphat",
+      "dihydrogenphosphat",
+      "sulfat",
+      "tosilat",
+      "mesilat",
+      "dimesilat",
+      "succinat",
+      "natrium",
+      "dinatrium",
+      "kalium",
+      "calcium",
+      "magnesium",
+      "mannitol",
+      "propionat",
+      "dipropionat",
+      "valerat",
+      "butyrat",
+      "furoat",
+      "embonat",
+      "lactat",
+      "gluconat",
+      "bromid",
+      "chlorid",
+      "hyclat",
+      "monohydrat",
+      "dihydrat",
+      "trihydrat",
+      "hemihydrat",
+      "hexahydrat",
+      "axetil",
+      "etexilat",
+      "pivoxil",
+      "palmitat",
+      "decanoat",
+      "enantat",
+      "undecanoat",
+      "benzoat",
+      "salicylat",
+      "oxalat",
+      "lysinat",
+      "arginin",
+      "trometamol",
+      "meglumin",
+      "disoproxil",
+      "medoxomil",
+      "cilexetil",
+      "mofetil",
+      "alafenamid",
+      "tert-butylamin",
+      "erbumin"
+    ],
+    "imZweifelAnzeigen": "Grundsatz: im Zweifel anzeigen statt ausblenden. Unklare Meldungen werden bei gespeicherter Auswahl nie weggefiltert, sondern mit Produktname gezeigt („x Meldungen ohne erkennbare Stärke – bitte mit Ihrer Packung vergleichen: Name“; der Satz bleibt wörtlich, weil Prüfung 9 ihn erwartet). Marke „Bitte vergleichen“ nur bei wirklich unklaren Meldungen. „Derzeit nichts gemeldet“ nur, wenn weder passende noch unklare Meldungen offen sind. „Seit deinem letzten Blick“ zählt passende und unklare Meldungen.",
+    "endeJeHersteller": "Je Gruppe (Stärke, Form) wird das voraussichtliche Ende je Zulassungsinhaber gezeigt (bei mehreren Daten eines Herstellers: frühestes bis spätestes), nicht nur das späteste der Gruppe.",
+    "gesamtlage": "Wirkstoffe = verschiedene Wirkstoffe nach Kürzung der Salz- und Hydratformen (siehe „kurzname“, z. B. Metoprololtartrat und Metoprololsuccinat = Metoprolol). Kombinationen zählen für jeden enthaltenen Wirkstoff einzeln, auch Bestandteile von Infusions- und Elektrolytlösungen. Versorgungskritisch: Zahl der Wirkstoffe nach derselben Regel und, getrennt in Klammern, Zahl der Meldungen.",
+    "handelsnamen": "Suche auch über stamm/handelsnamen.json (eigene Zusammenstellung, z. B. „Aspirin“ → Acetylsalicylsäure). Vergleich ohne Leerzeichen und Bindestriche.",
+    "tippfehler": "Ab 4 Zeichen und nur wenn kein Wirkstoff und kein Handelsname gefunden wird: ähnlich geschriebene Namen (Damerau-Levenshtein gegen den etwa gleich langen Namensanfang; höchstens 1 Fehler bis 7 Zeichen, sonst 2), gekennzeichnet als „ähnlich geschrieben“.",
+    "einheitenAuswahl": [
+      "mg",
+      "µg",
+      "g",
+      "µg/h",
+      "mg/ml",
+      "Einheiten/ml",
+      "I.E.",
+      "%",
+      "mg/Hub",
+      "µg/Hub"
+    ],
+    "ueblicheEinheit": {
+      "zweck": "Stärkefrage (#41): Nennen die Meldungen keine Einheit (z. B. „Thevier 50“), zeigen die Knöpfe nur die Zahl, darunter ein erklärender Satz. Nur für Wirkstoffe, bei denen die Einheit auf der Packung eindeutig ist, nennt der Satz sie; sonst keine Vermutung. Der Abgleich bleibt unverändert vorsichtig: eine Zahl ohne Einheit ergibt nie „andere Stärke“.",
+      "liste": [
+        {
+          "wirkstoff": "Levothyroxin",
+          "einheit": "µg",
+          "wort": "Mikrogramm"
+        },
+        {
+          "wirkstoff": "Liothyronin",
+          "einheit": "µg",
+          "wort": "Mikrogramm"
+        }
+      ]
+    },
+    "eingabe": "Die eigene Stärke wird als Zahl plus Auswahl der Einheit aus „einheitenAuswahl“ eingegeben, nicht als Freitext. Im Zahlenfeld gibt es keine Tausendertrennung: Punkt und Komma sind Dezimalzeichen („0.625“ = 0,625); gespeichert wird mit Komma. Frühere Freitext-Angaben werden nicht geraten, sondern beim Start verworfen; die App bittet dann um neue Eingabe („Bitte Stärke neu eingeben“). Kennung v: 3.",
+    "sucheMitStaerke": "Enthält die Sucheingabe nach dem Namen eine Zahl („Candesartan 16 mg Tabletten“), wird ab der Zahl nicht mehr gesucht; Formwörter (Tabletten, Saft, comp …) werden ebenfalls ignoriert. Zahl und Einheit (und eine erkannte Form) werden nach dem Antippen des Treffers als eigene Stärke vorgeschlagen. Ein Wirkstoffname, mit dem die Eingabe beginnt („Candesartan-ratiopharm“) oder der als Wort darin steht, wird immer gefunden. Ein Wort, das mit einem Wirkstoffnamen beginnt und mit einer Salzendung endet („Metoprololsuccinat“, „Amlodipinbesilat“), findet den Wirkstoff.",
+    "kurzname": {
+      "zweck": "Salz- und Hydratformen für Anzeige und Zählung kürzen: Endungen aus „salzEndungen“ (und „zusaetzlicheEndungen“) am Ende entfernen, auch mit Bindestrich oder Ziffer davor („Clindamycin-2-dihydrogenphosphat“ → „Clindamycin“), höchstens viermal hintereinander („Codeinphosphat-Hemihydrat“ → „Codein“). Nie kürzen, wenn der Rest kürzer als „mindestLaenge“ ist oder nur ein Gegenion bliebe („Natriumchlorid“ bleibt). Klammerzusätze wie „(Ph.Eur.)“ entfallen.",
+      "mindestLaenge": 4,
+      "zusaetzlicheEndungen": [],
+      "gegenionen": [
+        "natrium",
+        "dinatrium",
+        "kalium",
+        "calcium",
+        "magnesium",
+        "zink",
+        "eisen",
+        "lithium",
+        "ammonium",
+        "aluminium",
+        "silber"
+      ]
+    },
+    "einordnung": "Implementiert in docs/einordnung.js. Jede Meldung eines Wirkstoffs ist gegenüber „meinem Medikament“ zuerst „andereForm“, wenn eine eigene Form gewählt ist und die Meldung eine Form nennt, die zu einer anderen bekannten Formgruppe gehört – auch bei Kombinationen (eine Form außerhalb der Gruppen, „Sonstige“, oder eine fehlende Form ist „unklar“; andere Form ist nie „unklar“); sonst „kombination“ (siehe „kombination“); sonst ohne eigene Stärke und Form „passt“; mit Auswahl „andereStaerke“, wenn staerke.js sicher „andere“ sagt; „unklar“, wenn Form oder Stärke fehlen oder nicht sicher lesbar sind; sonst „passt“. Betroffen (Zählung, „seit deinem letzten Blick“) sind „passt“ und „unklar“; die Marke regelt „marke“. Kombinationen, andere Formen und andere Stärken stehen getrennt, immer mit Produktname, Form, Wirkstoffen und PZN und der Frage, ob das auf der Packung steht.",
+    "formFrage": "Gemerkter Wirkstoff ohne eigene Form, dessen Einzelpräparate in mehreren Formgruppen gemeldet sind: Die Detailseite fragt einmal nach der Form (Auswahl der gemeldeten Formgruppen und „weiß nicht“). „Weiß nicht“ wird gemerkt (formGefragt) und die Frage nicht wiederholt; dann zählen alle Formen.",
+    "formBegriffe": {
+      "zweck": "Formwörter in der Suche („Fiebersaft“, „Ibuprofen Saft“, „Nasenspray“). Ein Wort der Eingabe passt, wenn es dem Begriff gleicht (auch mit -n/-en) oder – ab 4 Buchstaben – damit endet. Der längste Begriff gewinnt („Augentropfen“ vor „Tropfen“). Die Trefferliste wertet dann nur Meldungen dieser Formgruppe als betroffen und nennt den Formbezug („Als Saft: …“); andere Formen und Kombinationen werden gekennzeichnet. Nach dem Antippen wird die Form als eigene Form vorgeschlagen.",
+      "liste": [
+        {
+          "wort": "augentropfen",
+          "anzeige": "Augentropfen",
+          "gruppe": "Augen-, Ohren- oder Nasentropfen"
+        },
+        {
+          "wort": "augensalbe",
+          "anzeige": "Augensalbe",
+          "gruppe": "Augen-, Ohren- oder Nasentropfen"
+        },
+        {
+          "wort": "nasentropfen",
+          "anzeige": "Nasentropfen",
+          "gruppe": "Augen-, Ohren- oder Nasentropfen"
+        },
+        {
+          "wort": "ohrentropfen",
+          "anzeige": "Ohrentropfen",
+          "gruppe": "Augen-, Ohren- oder Nasentropfen"
+        },
+        {
+          "wort": "retardtablette",
+          "anzeige": "Retardtablette",
+          "gruppe": "Retardtablette"
+        },
+        {
+          "wort": "saft",
+          "anzeige": "Saft",
+          "gruppe": "Saft, Lösung oder Granulat zum Einnehmen"
+        },
+        {
+          "wort": "sirup",
+          "anzeige": "Sirup",
+          "gruppe": "Saft, Lösung oder Granulat zum Einnehmen"
+        },
+        {
+          "wort": "tropfen",
+          "anzeige": "Tropfen",
+          "gruppe": "Saft, Lösung oder Granulat zum Einnehmen"
+        },
+        {
+          "wort": "granulat",
+          "anzeige": "Granulat",
+          "gruppe": "Saft, Lösung oder Granulat zum Einnehmen"
+        },
+        {
+          "wort": "spray",
+          "anzeige": "Spray",
+          "gruppe": "Inhalation oder Spray"
+        },
+        {
+          "wort": "dosieraerosol",
+          "anzeige": "Dosieraerosol",
+          "gruppe": "Inhalation oder Spray"
+        },
+        {
+          "wort": "inhalator",
+          "anzeige": "Inhalator",
+          "gruppe": "Inhalation oder Spray"
+        },
+        {
+          "wort": "pflaster",
+          "anzeige": "Pflaster",
+          "gruppe": "Pflaster"
+        },
+        {
+          "wort": "zäpfchen",
+          "anzeige": "Zäpfchen",
+          "gruppe": "Zäpfchen oder Vaginal-/Rektalform"
+        },
+        {
+          "wort": "salbe",
+          "anzeige": "Salbe",
+          "gruppe": "Salbe, Creme oder Gel"
+        },
+        {
+          "wort": "creme",
+          "anzeige": "Creme",
+          "gruppe": "Salbe, Creme oder Gel"
+        },
+        {
+          "wort": "gel",
+          "anzeige": "Gel",
+          "gruppe": "Salbe, Creme oder Gel"
+        },
+        {
+          "wort": "tablette",
+          "anzeige": "Tablette",
+          "gruppe": "Tablette"
+        },
+        {
+          "wort": "kapsel",
+          "anzeige": "Kapsel",
+          "gruppe": "Kapsel"
+        },
+        {
+          "wort": "spritze",
+          "anzeige": "Spritze",
+          "gruppe": "Spritze, Pen oder Infusion"
+        },
+        {
+          "wort": "pen",
+          "anzeige": "Pen",
+          "gruppe": "Spritze, Pen oder Infusion"
+        },
+        {
+          "wort": "ampulle",
+          "anzeige": "Ampulle",
+          "gruppe": "Spritze, Pen oder Infusion"
+        }
+      ]
+    },
+    "endeVorbei": "Liegt das voraussichtliche Ende einer noch gemeldeten Meldung vor dem heutigen Tag (Ortszeit des Geräts), steht statt „bis …“: „Ende war für den … erwartet – die Meldung besteht weiter“. Ruhig, nicht als Fehler und nicht in Warnfarbe (#4).",
+    "marke": "Marke je Wirkstoff (einordnung.js → urteil): passende Meldungen → „Engpass gemeldet“ bzw. „Versorgungskritisch“; nur unklare → „Bitte vergleichen“ (i); sonst nur Kombinationen → „Nur in Kombination gemeldet“ (i, kein Haken: es könnte das eigene Präparat sein, z. B. Hydrochlorothiazid wird fast nur kombiniert genommen); „Kein Engpass gemeldet“ (Haken) nur, wenn keine Meldung den Wirkstoff enthält oder alle eindeutig eine andere Form oder Stärke haben. Gilt für Meine, Detailseite und Trefferliste.",
+    "gefuehrt": "Geführte Auswahl (#18): Nach dem Antippen eines Wirkstoffs ohne gespeicherte Auswahl fragt die App nach der Stärke – als Knöpfe nur die Stärken der gemeldeten Einzelpräparate (keine Kombinationen, sicher lesbare Stärke), nach Zahl sortiert, dazu „Meine ist nicht dabei“ und „Weiß nicht“ – und danach nach der Form (nur die gemeldeten Formgruppen zur gewählten Stärke; gibt es nur eine, wird sie ohne Frage angenommen). Gibt es keine Einzelmeldung, keine Fragen: direkt die Detailseite. Ergebnis: die gemeldeten Produkte (je Präparat und Hersteller, mit PZN und voraussichtlichem Ende), Marke wie in „marke“. „Meine ist nicht dabei“ heißt: für diese Stärke bzw. Form nichts gemeldet; Meldungen ohne erkennbare Angabe stehen trotzdem als „bitte vergleichen“ da (im Zweifel betroffen). Die Liste zeigt nur gemeldete Produkte; ein Verzeichnis aller Produkte gibt es in den offenen Daten nicht (#17). Suche mit Stärke („Candesartan 16 mg“) und gemerkte Wirkstoffe mit gespeicherter Auswahl öffnen direkt die Detailseite; die Eingabe von Zahl und Einheit steht auch in der Stärkefrage.",
+    "meinProdukt": "Eigenes Produkt per PZN (#18): Eintrag in „Meine“ als { typ: 'pzn', pzn, name, wirkstoff? }; Abgleich exakt über die PZN (Prüfziffer wie bei der PZN-Suche). Name aus der Meldung vorgeschlagen, sonst selbst vergeben, ohne Namen „Mein Produkt (PZN …)“. „Seit deinem letzten Blick“ wie bei Wirkstoffen (Schlüssel pzn:<PZN>). Bestehende Wirkstoff-Einträge bleiben unverändert."
+  },
+  "einstufung": {
+    "verskri (auch versrel)": {
+      "kurz": "versorgungskritisch",
+      "text": "Das BfArM führt den Wirkstoff auf seiner Liste versorgungskritischer Wirkstoffe. Engpässe bei diesen Wirkstoffen beobachtet es besonders genau."
+    },
+    "versrel": {
+      "kurz": "versorgungsrelevant",
+      "text": "Das BfArM führt den Wirkstoff auf seiner Liste versorgungsrelevanter Wirkstoffe. Engpässe bei diesen Wirkstoffen beobachtet es besonders."
+    },
+    "weder versrel noch verskri": {
+      "kurz": "ohne besondere Einstufung",
+      "text": "Das BfArM stuft den Wirkstoff weder als versorgungsrelevant noch als versorgungskritisch ein."
+    }
+  },
+  "texte": {
+    "untertitel": "Lieferengpässe bei Medikamenten – ruhig erklärt",
+    "lageTitel": "Lage heute",
+    "lageZahl": "{anzahl} Lieferengpässe beim BfArM gemeldet",
+    "lageKritisch": "davon {kritischW} {wirkstoffWort}, die das BfArM als versorgungskritisch einstuft ({kritischM} {meldungWort})",
+    "lageVerlauf": "Seit dem Vortag: {neu} neu gemeldet, {entfernt} nicht mehr gemeldet, {verschoben} × erwartetes Ende verschoben.",
+    "lageVerlaufStart": "Der Verlauf wird seit {seit} täglich aufgezeichnet.",
+    "lieferVsVersorgung": "Ein Lieferengpass ist nicht automatisch ein Versorgungsengpass. Oft gibt es denselben Wirkstoff von anderen Herstellern, in anderen Packungsgrößen oder Stärken. Deine Apotheke kann dir meist ein gleichwertiges Präparat geben.",
+    "sucheHinweis": "Tipp unten den Wirkstoff ein, zum Beispiel „Candesartan“, oder den Namen von deiner Packung.",
+    "keineMeldung": "Für {wirkstoff} ist beim BfArM derzeit kein Lieferengpass gemeldet.",
+    "keineMeldungZusatz": "Das sagt nichts darüber, welche Packungen deine Apotheke gerade da hat. Engpässe können auch auftreten, bevor sie gemeldet sind.",
+    "meldungen": "{wirkstoff}: Lieferengpass beim BfArM gemeldet. Betroffen: {betroffen}.",
+    "betroffen": "{gruppen} {gruppenWort} von {hersteller} {herstellerWort} ({anzahl} {meldungWort})",
+    "gesamtlage": "{wirkstoffe} Wirkstoffe betroffen ({anzahl} Meldungen beim BfArM)",
+    "kalenderwoche": "Kalenderwoche {woche}/{jahr}",
+    "wasHeisstDas": "Was heißt das?",
+    "infektTitel": "Atemwegsinfekte (RKI-Meldedaten)",
+    "herstellerUnbekannt": "Wie viele Hersteller {wirkstoff} insgesamt anbieten, steht nicht in den Daten des BfArM.",
+    "wasTun": "Frag in deiner Apotheke, ob sie dir ein gleichwertiges Präparat geben kann. Wenn deine Packung bald leer ist, kümmere dich rechtzeitig um das nächste Rezept und sprich bei Bedarf mit deiner Arztpraxis.",
+    "ende": "voraussichtlich bis {datum} (Angabe des Herstellers)",
+    "endeVerschoben": "Erwartetes Ende seit Beginn der Aufzeichnung {anzahl} × verschoben",
+    "endeNieVerschoben": "Erwartetes Ende seit Beginn der Aufzeichnung nicht verschoben",
+    "gemeldetSeit": "gemeldet seit {datum}",
+    "nichtMehrGemeldet": "In den letzten 30 Tagen nicht mehr gemeldet (meist: Engpass vorbei): {anzahl}",
+    "luecken": "Nicht enthalten: Impfstoffe (dafür ist das Paul-Ehrlich-Institut zuständig). Meldungen kommen von den Herstellern und können verspätet sein.",
+    "keineBeratung": "Das hier ersetzt keine ärztliche Beratung. Ändere deine Behandlung nie, ohne vorher mit deiner Arztpraxis zu sprechen.",
+    "offline": "Kein Netz. Du siehst die zuletzt geladenen Daten.",
+    "ausfallTagesdaten": "Die Tagesdaten ließen sich gerade nicht laden.",
+    "ausfallInfekt": "Die Infektdaten des RKI sind gerade nicht erreichbar.",
+    "datenFehlen": "Auf diesem Gerät sind noch keine Tagesdaten. Sobald du Netz hast, werden sie geladen.",
+    "auswahlTitel": "Deine Stärke und Form",
+    "auswahlHilfe": "Zahl und Einheit stehen auf deiner Packung. Beispiel „Candesartan 16 mg Tabletten“: Zahl 16, Einheit mg, Form Tablette. Dezimalzahlen mit Komma oder Punkt (0,5), ohne Tausenderpunkt. Bei zwei Wirkstoffen zum Beispiel 160/12,5. Wenn du die Einheit nicht weißt, reicht die Zahl.",
+    "auswahlGemeldet": "Deine Auswahl ({auswahl}): Lieferengpass beim BfArM gemeldet bei {hersteller}.",
+    "auswahlNichts": "Deine Auswahl ({auswahl}): derzeit nichts beim BfArM gemeldet.",
+    "auswahlAndere": "Betroffen sind andere Stärken oder Formen: {betroffen}.",
+    "seitBlick": "Seit deinem letzten Blick am {datum}:",
+    "letzteTage": "In den letzten 7 Tagen: {neu} neu gemeldet, {entfernt} nicht mehr gemeldet, {verschoben} × erwartetes Ende verschoben.",
+    "verschiebung": "Erwartetes Ende verschoben: {von} → {nach} (bemerkt am {am})",
+    "auswahlUnklar": "{anzahl} {meldungWort} ohne {art} {was} – bitte mit Ihrer Packung vergleichen",
+    "endeHersteller": "Voraussichtliches Ende laut Hersteller:",
+    "datenFehlerhaft": "Die neuen Tagesdaten sind fehlerhaft und wurden nicht übernommen. Du siehst den zuletzt geprüften Stand vom {datum}.",
+    "datenFehlerhaftOhne": "Die Tagesdaten sind fehlerhaft und wurden nicht übernommen. Öffne die App bitte später noch einmal.",
+    "ausfallTagesdatenAlt": "Die Tagesdaten ließen sich gerade nicht laden. Du siehst den zuletzt geladenen Stand vom {datum}.",
+    "veraltet": "Achtung: Stand vom {datum} ({alter}). Das ist älter als üblich, neuere Meldungen fehlen hier vielleicht.",
+    "darstellungFehler": "Die Daten ließen sich nicht anzeigen. Öffne die App bitte später noch einmal.",
+    "hinzugefuegt": "Gemerkt. Du findest es jetzt unter „Meine“.",
+    "entfernt": "Nicht mehr gemerkt.",
+    "auswahlGespeichert": "Deine Stärke und Form sind gespeichert.",
+    "titelMeine": "Meine Medikamente",
+    "titelSuchen": "Suchen",
+    "titelNeu": "Neuigkeiten",
+    "titelMehr": "Mehr",
+    "titelMedikament": "Medikament",
+    "titelPzn": "PZN prüfen",
+    "titelAuswahl": "Stärke und Form wählen",
+    "titelPznNeu": "Mein Produkt hinzufügen",
+    "titelApotheken": "Apotheken in der Nähe",
+    "scanKnopf": "Packung scannen",
+    "scanKurz": "Scannen",
+    "scanTitel": "Strichcode scannen",
+    "scanHinweis": "Halte den Strichcode mit „PZN“ ruhig in den Rahmen. Den quadratischen Code kann die App noch nicht lesen.",
+    "scanPrivat": "Das Kamerabild bleibt auf deinem iPhone und wird nicht gespeichert.",
+    "scanAbbrechen": "Abbrechen",
+    "scanKeineKamera": "Die Kamera lässt sich gerade nicht nutzen. Tippe die 8 Ziffern hinter „PZN“ einfach ein.",
+    "aehnlich": "ähnlich geschrieben",
+    "rkiVeraendert": "Werte des RKI ausgewählt (alle Altersgruppen, letzte und vorletzte Meldewoche) und verglichen; nicht vom RKI geprüft.",
+    "zahlUngueltig": "Bitte nur die Zahl eingeben, zum Beispiel 16 oder 0,5 (bei zwei Wirkstoffen 160/12,5). Die Einheit wählst du daneben.",
+    "staerkeErkannt": "In deiner Eingabe steht {staerke}. Nach dem Antippen kannst du das als deine Stärke übernehmen.",
+    "staerkeVorschlag": "Aus deiner Suche: {staerke}.",
+    "staerkeUebernehmen": "Als meine Stärke speichern: {staerke}",
+    "staerkeNeu": "Deine früher gespeicherte Stärke („{alt}“) haben wir nicht übernommen, weil sie als freier Text eingegeben war. Gib sie bitte unten neu ein: Zahl und Einheit. Bis dahin siehst du alle Meldungen zu diesem Wirkstoff.",
+    "staerkeNeuKurz": "Bitte Stärke neu eingeben (Zahl und Einheit)",
+    "nichtsGefunden": "Dazu haben wir nichts gefunden. Gib den Wirkstoff oder den Namen von deiner Packung ein – er steht klein unter dem Namen.",
+    "ansageTreffer": "{anzahl} Treffer",
+    "ansageKeineTreffer": "Keine Treffer",
+    "meineHinweis": "Tipp auf ein Medikament, um es zu öffnen. Wisch es zur Seite, um es zu entfernen. Halt es gedrückt und zieh es, um die Reihenfolge zu ändern – oder tipp oben auf „Bearbeiten“.",
+    "meineListe": "Deine Liste",
+    "meineAnzahl": "{anzahl} Medikamente",
+    "meineAnzahlEins": "1 Medikament",
+    "meineBearbeiten": "Bearbeiten",
+    "meineFertig": "Fertig",
+    "meineBearbeitenZeile": "Reihenfolge ändern oder entfernen",
+    "nachOben": "Nach oben",
+    "nachObenName": "{name} nach oben",
+    "nachUnten": "Nach unten",
+    "nachUntenName": "{name} nach unten",
+    "meineEntfernen": "Entfernen",
+    "meineEntfernenName": "{name} entfernen",
+    "meineEntfernt": "{name} entfernt.",
+    "meineRueckgaengigHinweis": "Mit „Rückgängig“ holst du es zurück.",
+    "rueckgaengig": "Rückgängig",
+    "meineWiederDa": "{name} ist wieder in deiner Liste.",
+    "meineVerschoben": "{name} ist jetzt an Platz {platz} von {anzahl}.",
+    "meineLeer": "Such unten nach deinem Medikament und tipp auf „Merken“. Dann siehst du hier auf einen Blick, ob dafür ein Lieferengpass gemeldet ist.",
+    "neuLeer": "Hier erscheint, was sich bei deinen gemerkten Medikamenten ändert, zum Beispiel eine neue Meldung oder ein verschobenes Ende.",
+    "neuNichts": "Seit deinem letzten Blick hat sich bei deinen Medikamenten nichts geändert.",
+    "neuVerlaufFehlt": "Für die letzten 7 Tage gibt es noch keinen Verlauf.",
+    "deineAuswahl": "Deine Auswahl ({auswahl})",
+    "herkunft": "Quelle: Lieferengpassmeldungen der Hersteller beim BfArM, einmal am Tag übernommen. Der Abgleich mit deinem Medikament läuft nur auf deinem Gerät.",
+    "infektNachfrage": "Steigen Infektwellen, steigt oft auch die Nachfrage nach Fiebersäften, Antibiotika und Inhalativa. {anzahl} der aktuellen Engpassmeldungen nennen „Erhöhte Nachfrage“ als Grund.",
+    "kombinationMit": "Kombination mit {partner}",
+    "kombinationHinweis": "Das betrifft nur Präparate, in denen außer {wirkstoff} noch diese Wirkstoffe stecken.",
+    "nurGetrenntEins": "Gemeldet ist nur {produkt}. Steht das auf deiner Packung? Wenn nicht, ist dein {wirkstoff} nicht betroffen.",
+    "nurGetrenntMehrere": "Gemeldet sind nur diese Präparate: {produkte}. Steht eins davon auf deiner Packung? Wenn nicht, ist dein {wirkstoff} nicht betroffen.",
+    "auchGetrennt": "Außerdem gemeldet: {produkte}. Das betrifft dich nur, wenn genau das auf deiner Packung steht.",
+    "keineMeldungEinzel": "Für {wirkstoff} allein ist beim BfArM derzeit kein Lieferengpass gemeldet.",
+    "unklarDetail": "{anzahl} {meldungWort} ohne {art} {was}: {produkte}. Steht das auf deiner Packung? Dann ist dein {wirkstoff} betroffen.",
+    "meineNur": "Gemeldet nur: {produkte}",
+    "formFrage": "{wirkstoff} ist in mehreren Formen gemeldet. Welche Form hast du? Dann zeigen wir dir nur, was dich betrifft.",
+    "formFrageKurz": "In mehreren Formen gemeldet – tipp hier und wähl deine Form.",
+    "formUebernehmen": "Als meine Form speichern: {form}",
+    "trefferFormBezug": "Als {form}: ",
+    "trefferNurKombination": "Kombination mit {partner} ({formen})",
+    "trefferNurAndereForm": "Nur andere Formen gemeldet ({formen})",
+    "trefferNurGetrennt": "Nur Kombinationen oder andere Formen gemeldet ({formen})",
+    "trefferNurAndereStaerke": "Nur andere Stärken gemeldet",
+    "trefferKeine": "keine Meldung beim BfArM",
+    "oberbegriffGemeldet": "{einleitung} Gemeldet sind gerade:",
+    "oberbegriffKeine": "{einleitung} Für keinen davon ist gerade ein Einzelpräparat gemeldet. Gib den Wirkstoff von deiner Packung ein, um sicherzugehen.",
+    "oberbegriffMehr": "… und {anzahl} weitere. Gib den Wirkstoff oder den Namen von deiner Packung ein.",
+    "endeVorbei": "Ende war für den {datum} erwartet – die Meldung besteht weiter",
+    "nurKombinationMarke": "Nur in Kombination gemeldet",
+    "nurKombinationStatus": "nur in Kombination gemeldet",
+    "auswahlNurKombination": "Deine Auswahl ({auswahl}): als Einzelpräparat nichts gemeldet, nur in Kombination mit anderen Wirkstoffen.",
+    "nurKombinationErklaerung": "Gemeldet sind nur Präparate, in denen dein Wirkstoff zusammen mit anderen steckt. Ob das deins ist, siehst du auf der Packung.",
+    "neuTitel": "Neu in dieser Version",
+    "neuSchliessen": "Schließen",
+    "neuSpaeter": "Du findest das auch später unter „Mehr“ bei der Versionsnummer.",
+    "neuDieseVersion": "diese Version",
+    "neuTitelMehrere": "Neu seit deinem letzten Stand",
+    "neuMehr": "Mehr anzeigen ({anzahl} weitere)",
+    "staerkeFrage": "Welche Stärke steht auf deiner Packung?",
+    "staerkeFrageHilfe": "Zum Beispiel „16 mg“ – direkt hinter dem Namen.",
+    "staerkeFrageHilfeOhneEinheit": "Die Zahl steht direkt hinter dem Namen.",
+    "staerkeOhneEinheit": "Die Meldungen nennen keine Einheit. Vergleich die Zahl mit der Stärke auf deiner Packung.",
+    "staerkeOhneEinheitUeblich": "Die Meldungen nennen keine Einheit. Bei {wirkstoff} steht auf der Packung meist „{wort}“ ({einheit}).",
+    "staerkeFrageHinweis": "Gezeigt sind die Stärken, für die gerade ein Engpass gemeldet ist. Deine ist nicht dabei? Dann ist für sie nichts gemeldet.",
+    "formFrageGefuehrt": "Welche Form hat dein Medikament?",
+    "formFrageHinweis": "Gezeigt sind die Formen, für die gerade ein Engpass gemeldet ist. Deine ist nicht dabei? Dann ist für sie nichts gemeldet.",
+    "nichtDabei": "Meine ist nicht dabei",
+    "weissNicht": "Weiß nicht",
+    "selbstEingebenTitel": "Stärke selbst eingeben",
+    "selbstEingeben": "Zahl und Einheit stehen auf deiner Packung.",
+    "selbstEingebenNichtDabei": "Gib deine Stärke ein – dann überwachen wir genau sie.",
+    "listeGemeldet": "{anzahl} {produktWort} von {hersteller} {herstellerWort} gemeldet. Ist deins dabei?",
+    "listeUnklar": "Für deine Auswahl ist nichts sicher gemeldet. Diese Meldungen nennen keine passende Angabe – vergleich sie mit deiner Packung.",
+    "listeNichts": "Für deine Auswahl ist gerade nichts gemeldet.",
+    "listeTitel": "Gemeldete Produkte",
+    "listeHinweis": "Die Liste zeigt nur Produkte, für die ein Lieferengpass gemeldet ist. Ist deins nicht dabei, ist dafür nichts gemeldet.",
+    "produktMeta": "{hersteller} · {anzahl} {packungWort}",
+    "produktUnklar": "Stärke oder Form nicht sicher zuzuordnen",
+    "dasIstMeins": "Das ist mein Produkt",
+    "alleUeberwachen": "Alle überwachen",
+    "ueberwacht": "Gemerkt. Du findest es jetzt unter „Meine“.",
+    "pznHinzufuegen": "Mein Produkt über die PZN hinzufügen",
+    "pznTitel": "Mein Produkt hinzufügen",
+    "pznFeld": "PZN von deiner Packung",
+    "pznHilfe": "8 Ziffern, meist beim Strichcode: „PZN-08625171“.",
+    "pznUngueltig": "Diese PZN ist nicht gültig, die Prüfziffer passt nicht. Schau bitte noch einmal auf die 8 Ziffern auf der Packung.",
+    "pznGemeldet": "Für genau diese Packung ist ein Engpass gemeldet.",
+    "pznNichts": "Für diese PZN ist gerade nichts gemeldet. Du kannst sie trotzdem merken – dann siehst du es, sobald sich das ändert.",
+    "pznName": "Wie heißt es für dich?",
+    "pznNameVorschlag": "Vorgeschlagen aus der Meldung. Du kannst ihn ändern, z. B. „Mamas Blutdrucktablette“.",
+    "pznNameLeer": "Für diese PZN kennen wir keinen Namen. Schreib ab, was auf der Packung steht.",
+    "pznNameErsatz": "Mein Produkt (PZN {pzn})",
+    "pznPrivat": "Der Abgleich läuft nur auf deinem iPhone. Die PZN verlässt das Gerät nicht.",
+    "pznMerken": "Merken",
+    "pznMeta": "Mein Produkt · PZN {pzn}",
+    "pznStatusGemeldet": "Engpass gemeldet: {name}",
+    "pznStatusNichts": "kein Lieferengpass gemeldet",
+    "pznUmbenennen": "Umbenennen",
+    "pznUmbenannt": "Umbenannt.",
+    "pznEntfernen": "Nicht mehr merken",
+    "pznAlsMeins": "Als mein Produkt merken",
+    "pznNochZiffern": "PZN: noch {anzahl} Ziffern",
+    "pznNochZiffer": "PZN: noch 1 Ziffer",
+    "pznMindestens": "Gib mindestens {anzahl} Ziffern ein.",
+    "pznNurGemeldet": "Vorschläge gibt es nur für Packungen mit Meldung. Kein Vorschlag heißt nicht, dass die PZN falsch ist.",
+    "pznEingrenzen": "Tipp weiter, um einzugrenzen – {anzahl} Packungen passen.",
+    "pznKeinVorschlag": "Keine gemeldete Packung beginnt so. Tipp einfach weiter.",
+    "pznNurGemeldetUndTest": "Vorschläge kommen aus den Meldungen und aus deinen Testdaten. Kein Vorschlag heißt nicht, dass die PZN falsch ist.",
+    "pznGueltigNichts": "Gültige PZN. Zu dieser Packung ist beim BfArM nichts gemeldet.",
+    "pznFrueherGemeldet": "Früher gemeldet",
+    "pznAlt7": "Alte 7-stellige PZN: als {pzn} prüfen",
+    "ansagePznVorschlaege": "{anzahl} Vorschläge.",
+    "ansagePznVorschlag": "1 Vorschlag.",
+    "ansagePznErkannt": "PZN erkannt.",
+    "pznWegTitel": "Deine Packung über die PZN merken",
+    "pznWegText": "Mit der PZN von deiner Packung siehst du später genau, ob sie gemeldet wird.",
+    "pznEintippen": "PZN eintippen",
+    "testdatenTitel": "Testdaten",
+    "testdatenHinweis": "Nur auf diesem iPhone. Nur zum Testen.",
+    "testdatenErklaerung": "Eine Datei mit PZN und Produktangaben zeigt dir Name, Wirkstoff, Stärke und Packung auch für Packungen ohne Meldung. Ob es einen Engpass gibt, sagen weiter nur die Meldungen beim BfArM.",
+    "testdatenLaden": "Datei laden",
+    "testdatenEntfernen": "Testdaten entfernen",
+    "testdatenKeine": "Keine Testdaten geladen.",
+    "testdatenGeladen": "Testdaten geladen: {anzahl} Packungen, Quellen: {quellen}.",
+    "testdatenGespeichert": "Die Testdaten sind auf diesem iPhone gespeichert.",
+    "testdatenEntfernt": "Die Testdaten sind entfernt.",
+    "testdatenNichtEntfernt": "Die Testdaten ließen sich gerade nicht entfernen. Versuch es bitte noch einmal.",
+    "testdatenGroesse": "Diese Datei ist zu groß, höchstens 10 MB gehen. Es wurde nichts gespeichert.",
+    "testdatenKeinJson": "Diese Datei lässt sich nicht als JSON lesen. Es wurde nichts gespeichert.",
+    "testdatenAufbau": "Diese Datei hat nicht den erwarteten Aufbau. Es wurde nichts gespeichert.",
+    "testdatenAnzahl": "Die Anzahl der Packungen in der Datei stimmt nicht. Es wurde nichts gespeichert.",
+    "testdatenPruefziffer": "Die Datei enthält eine PZN, deren Prüfziffer nicht passt. Es wurde nichts gespeichert.",
+    "testdatenFeld": "Ein Eintrag in der Datei ist zu lang, unvollständig oder unbekannt. Es wurde nichts gespeichert.",
+    "testdatenSpeicher": "Die Testdaten ließen sich auf diesem Gerät nicht speichern.",
+    "ausTestdaten": "Aus Testdaten",
+    "testdatenOhneStatus": "Die Testdaten nennen nur das Produkt. Ob es einen Engpass gibt, sagen nur die Meldungen beim BfArM.",
+    "pznNameAusTestdaten": "Name aus den Testdaten vorgeschlagen – du kannst ihn ändern.",
+    "apoTitel": "Apotheken in der Nähe",
+    "apoEinstieg": "In einer Apotheke nachfragen",
+    "apoEinstiegHilfe": "Apotheken in deiner Nähe – mit Öffnungszeiten und Route",
+    "notdienstTitel": "Notdienst",
+    "notdienstText": "Nachts, am Wochenende und an Feiertagen hat immer eine Apotheke in deiner Nähe Notdienst.",
+    "notdienstSuche": "Notdienst-Apotheke suchen (aponet.de)",
+    "apoWo": "Wo suchst du?",
+    "apoStandort": "Meinen Standort verwenden",
+    "apoOrtFeld": "Ort oder PLZ",
+    "apoSuchen": "Suchen",
+    "apoPrivat": "Dein Standort, deine PLZ und dein Ort bleiben auf deinem iPhone. Die App hat alle Apotheken schon gespeichert und rechnet hier; gemerkt wird nur der zuletzt gewählte Ort, bis du auf „ändern“ tippst.",
+    "apoAendern": "ändern",
+    "apoBeiStandort": "In deiner Nähe (Standort)",
+    "apoRundUm": "Rund um {ort}",
+    "apoStandortFehler": "Dein Standort ließ sich nicht bestimmen. Gib einen Ort oder eine PLZ ein.",
+    "apoNurOffen": "Nur jetzt geöffnete",
+    "apoKeineOffen": "Gerade ist keine dieser Apotheken geöffnet. Nutze den Notdienst oben.",
+    "apoNichtsGefunden": "Für „{ort}“ haben wir keine Apotheke gefunden. Versuch es mit der PLZ oder einem anderen Ortsnamen.",
+    "apoPlzKurz": "Gib bitte mindestens die ersten drei Ziffern der Postleitzahl ein.",
+    "apoOrtWahl": "Diesen Ortsnamen gibt es mehrmals. Welchen meinst du?",
+    "apoOrtMitPlz": "{ort} ({plz})",
+    "apoPlzOrtPasstNicht": "„{ort}“ haben wir nicht bei {plz} gefunden. Du siehst die Apotheken rund um {plz}.",
+    "apoOhneAdresse": "Adresse nicht eingetragen",
+    "apoMehr": "{anzahl} weitere anzeigen",
+    "apoRollstuhl": "rollstuhlgerecht",
+    "apoKeineZeiten": "Keine Öffnungszeiten eingetragen – ruf an.",
+    "apoZeitenRoh": "Laut OpenStreetMap: {text}",
+    "apoAnrufen": "Anrufen",
+    "apoRoute": "Route",
+    "apoLaden": "Die Apotheken werden geladen …",
+    "apoLadenFehler": "Die Apotheken ließen sich gerade nicht laden. Versuch es mit Netz noch einmal.",
+    "apoFuss": "Ob ein Medikament vorrätig ist, wissen wir nicht – ruf am besten vorher an. Öffnungszeiten aus OpenStreetMap, ohne Gewähr. Daten © OpenStreetMap-Mitwirkende (ODbL), Stand: {stand}.",
+    "routeTitel": "Route öffnen mit",
+    "routeMerken": "Auswahl merken (änderbar unter „Mehr“)",
+    "abbrechen": "Abbrechen",
+    "karteTitel": "Karten-App für „Route“",
+    "karteFragen": "Jedes Mal fragen",
+    "karteHinweis": "„Jedes Mal fragen“ zeigt die Auswahl bei jeder Route."
+  },
+  "formGruppen": [
+    {
+      "name": "Inhalation oder Spray",
+      "muster": [
+        "inhalation",
+        "vernebler",
+        "druckgas",
+        "treibmittel",
+        "spray",
+        "nasenpulver"
+      ]
+    },
+    {
+      "name": "Augen-, Ohren- oder Nasentropfen",
+      "muster": [
+        "augentropfen",
+        "augensalbe",
+        "ohrentropfen",
+        "nasentropfen",
+        "intraokular"
+      ]
+    },
+    {
+      "name": "Spritze, Pen oder Infusion",
+      "muster": [
+        "injektion",
+        "infusion",
+        "fertigspritze",
+        "fertiginjektor",
+        "fertigpen",
+        "lyophilisat",
+        "trockensubstanz",
+        "hämodialyse",
+        "kardioplege",
+        "instillation"
+      ]
+    },
+    {
+      "name": "Retardtablette",
+      "muster": [
+        "retardtablette",
+        "tablette mit veränderter"
+      ]
+    },
+    {
+      "name": "Magensaftresistente Tablette",
+      "muster": [
+        "magensaftresistente tablette"
+      ]
+    },
+    {
+      "name": "Tablette",
+      "muster": [
+        "tablette"
+      ]
+    },
+    {
+      "name": "Retardkapsel",
+      "muster": [
+        "kapsel, retardiert",
+        "retardkapsel"
+      ]
+    },
+    {
+      "name": "Magensaftresistente Kapsel",
+      "muster": [
+        "magensaftresistente hartkapsel",
+        "magensaftresistente kapsel"
+      ]
+    },
+    {
+      "name": "Kapsel",
+      "muster": [
+        "kapsel"
+      ]
+    },
+    {
+      "name": "Saft, Lösung oder Granulat zum Einnehmen",
+      "muster": [
+        "zum einnehmen",
+        "granulat",
+        "sirup",
+        "saft"
+      ]
+    },
+    {
+      "name": "Salbe, Creme oder Gel",
+      "muster": [
+        "salbe",
+        "creme",
+        "gel",
+        "paste",
+        "auf der haut"
+      ]
+    },
+    {
+      "name": "Pflaster",
+      "muster": [
+        "pflaster"
+      ]
+    },
+    {
+      "name": "Zäpfchen oder Vaginal-/Rektalform",
+      "muster": [
+        "zäpfchen",
+        "vaginal",
+        "rektal",
+        "harnröhre"
+      ]
+    },
+    {
+      "name": "Sonstige",
+      "muster": []
+    }
+  ],
+  "pruefung": {
+    "zweck": "Prüfung der Tagesdaten vor dem Speichern auf dem Gerät. Defekte oder unplausible Daten werden nie gespeichert; der alte Stand bleibt und die App sagt „Daten fehlerhaft“.",
+    "aktuell": [
+      "JSON-Objekt mit „meldungen“ als Liste, „abgerufen“ als gültiges Datum (höchstens 1 Tag in der Zukunft)",
+      "mindestens „minMeldungen“ Meldungen und „anzahl“ = Länge der Liste",
+      "jede Meldung ist ein Objekt mit Kennung („id“) und Text in „name“ oder „wirkstoffe“",
+      "nicht weniger als „minAnteilVorher“ der zuletzt gespeicherten Meldungszahl",
+      "nicht älter als der zuletzt gespeicherte Stand (siehe „nieAelter“)"
+    ],
+    "verlauf": [
+      "JSON-Objekt mit „seit“ (Datum), „tage“ (Liste), „meldungen“ (Objekt) und „aktualisiert“ (Datum, höchstens 1 Tag in der Zukunft); ohne „aktualisiert“ wird der Verlauf nicht übernommen"
+    ],
+    "minMeldungen": 50,
+    "minAnteilVorher": 0.5,
+    "veraltetNachStunden": 36,
+    "nieAelter": "Ein älterer Stand (aktuell.json: „abgerufen“; verlauf.json: „aktualisiert“) als der gespeicherte wird nie übernommen und nie gespeichert. Ein gespeicherter Zeitstempel in der Zukunft (mehr als 10 Minuten) ist dabei kein Maßstab. Kein Fehler; die App zeigt weiter den neueren Stand.",
+    "veraltetHinweis": "Der Spiegel prüft alle 3 Stunden und veröffentlicht nur bei geänderten Daten; „abgerufen“ ist der Zeitpunkt des letzten neuen Stands. Ab 36 Stunden ohne neuen Stand warnt die App deutlich bei jeder Aussage."
+  },
+  "oberbegriffe": {
+    "zweck": "Kleine, gepflegte Liste häufiger Oberbegriffe für die Suche (#6), abgebildet auf Gruppen des ATC-Systems der WHO (Präfixe). Eine Eingabe ab 5 Zeichen passt, wenn ein Begriff damit beginnt. Gezeigt werden die Wirkstoffe der Gruppe, für die gerade Einzelpräparate gemeldet sind (Meldungen mit ATC-Code, der mit einem Präfix beginnt; Kombinationen zählen nicht). Die Zuordnung ist eine eigene Zusammenstellung, keine vollständige Liste der Gruppe.",
+    "liste": [
+      {
+        "name": "Blutdrucksenker",
+        "begriffe": [
+          "blutdrucksenker",
+          "blutdruckmittel",
+          "blutdrucktabletten",
+          "bluthochdruck",
+          "antihypertensivum",
+          "antihypertensiva"
+        ],
+        "atc": [
+          "C02",
+          "C03",
+          "C07",
+          "C08",
+          "C09"
+        ],
+        "einleitung": "Blutdrucksenker sind viele Wirkstoffe."
+      },
+      {
+        "name": "Antibiotika",
+        "begriffe": [
+          "antibiotikum",
+          "antibiotika"
+        ],
+        "atc": [
+          "J01"
+        ],
+        "einleitung": "Antibiotika sind viele Wirkstoffe."
+      },
+      {
+        "name": "Schmerzmittel",
+        "begriffe": [
+          "schmerzmittel",
+          "schmerztabletten",
+          "schmerzmedikament",
+          "analgetikum",
+          "analgetika"
+        ],
+        "atc": [
+          "N02",
+          "M01A"
+        ],
+        "einleitung": "Schmerzmittel sind viele Wirkstoffe."
+      },
+      {
+        "name": "Cholesterinsenker",
+        "begriffe": [
+          "cholesterinsenker",
+          "blutfettsenker",
+          "statine"
+        ],
+        "atc": [
+          "C10"
+        ],
+        "einleitung": "Cholesterinsenker sind mehrere Wirkstoffe."
+      },
+      {
+        "name": "Magenschutz",
+        "begriffe": [
+          "magenschutz",
+          "säureblocker",
+          "protonenpumpenhemmer"
+        ],
+        "atc": [
+          "A02BC"
+        ],
+        "einleitung": "Zum Magenschutz gibt es mehrere Wirkstoffe."
+      },
+      {
+        "name": "Blutverdünner",
+        "begriffe": [
+          "blutverdünner",
+          "gerinnungshemmer",
+          "antikoagulans",
+          "antikoagulanzien"
+        ],
+        "atc": [
+          "B01A"
+        ],
+        "einleitung": "Blutverdünner sind mehrere Wirkstoffe."
+      },
+      {
+        "name": "Antidepressiva",
+        "begriffe": [
+          "antidepressivum",
+          "antidepressiva"
+        ],
+        "atc": [
+          "N06A"
+        ],
+        "einleitung": "Antidepressiva sind viele Wirkstoffe."
+      },
+      {
+        "name": "Diabetesmittel",
+        "begriffe": [
+          "diabetesmittel",
+          "blutzuckersenker",
+          "antidiabetikum",
+          "antidiabetika"
+        ],
+        "atc": [
+          "A10"
+        ],
+        "einleitung": "Diabetesmittel sind viele Wirkstoffe."
+      },
+      {
+        "name": "Asthmamittel",
+        "begriffe": [
+          "asthmamittel",
+          "asthmaspray"
+        ],
+        "atc": [
+          "R03"
+        ],
+        "einleitung": "Asthmamittel sind viele Wirkstoffe."
+      },
+      {
+        "name": "Schilddrüsenmittel",
+        "begriffe": [
+          "schilddrüsenhormon",
+          "schilddrüsentabletten",
+          "schilddrüsenmittel"
+        ],
+        "atc": [
+          "H03"
+        ],
+        "einleitung": "Schilddrüsenmittel sind mehrere Wirkstoffe."
+      },
+      {
+        "name": "Mittel gegen Epilepsie",
+        "begriffe": [
+          "antiepileptikum",
+          "antiepileptika",
+          "epilepsiemittel"
+        ],
+        "atc": [
+          "N03A"
+        ],
+        "einleitung": "Mittel gegen Epilepsie sind viele Wirkstoffe."
+      },
+      {
+        "name": "Allergiemittel",
+        "begriffe": [
+          "antihistaminikum",
+          "antihistaminika",
+          "allergiemittel",
+          "allergietabletten"
+        ],
+        "atc": [
+          "R06A"
+        ],
+        "einleitung": "Allergiemittel sind viele Wirkstoffe."
+      }
+    ],
+    "anzeigenHoechstens": 12
+  },
+  "neuKarte": {
+    "zweck": "Karte „Neu in dieser Version“ (docs/neu.json): nach einer Aktualisierung alle Einträge seit dem zuletzt gesehenen (gemerkt in ew.neuGesehen) bis zur laufenden Version, neueste zuerst, in einer Karte. Zuerst höchstens „eintraegeZuerst“ Einträge, der Rest hinter „Mehr anzeigen“. Beim allerersten Start keine Karte; ist der gemerkte Eintrag unbekannt, zählt er als Zeitpunkt.",
+    "eintraegeZuerst": 2
+  },
+  "apotheken": {
+    "zweck": "Apotheken in der Nähe (#15). Daten: OpenStreetMap (amenity=pharmacy, ODbL 1.0), einmal pro Woche per Overpass gespiegelt (werkzeuge/apotheken-holen.mjs) und mit der App vom eigenen Host geladen – erst beim ersten Öffnen des Bereichs, danach offline vorgehalten und höchstens wöchentlich erneuert. Der Standort verlässt nie das Gerät: navigator.geolocation nur nach Tipp, Entfernungen auf dem Gerät, Standort nur für die laufende Sitzung im Speicher. Alternativ Ort oder PLZ (#50): Die App übersetzt die Eingabe auf dem Gerät in einen Mittelpunkt – aus der Tabelle orte.json (PLZ-Gebiete und Orte aus OpenStreetMap, wöchentlich mit den Apotheken gespiegelt), ersatzweise aus den Apotheken mit dieser PLZ bzw. diesem Ort – und sortiert dann wie beim Standort nach Entfernung; Apotheken ohne eingetragene Adresse werden so mitgefunden. Mehrdeutige Ortsnamen: der größte Ort zuerst, bis zu fünf zur Auswahl. Gemerkt wird nur der eingegebene Ort. Navigation, Anrufe und Notdienstsuche sind nur Links, die erst auf Tipp eine andere App oder Seite öffnen. Keine Aussage über Vorräte.",
+    "eintraegeJeSeite": 10,
+    "neuLadenNachTagen": 7,
+    "notdienstUrl": "https://www.aponet.de/apotheke/notdienstsuche",
+    "notdienstFestnetz": {
+      "anzeige": "0800 00 22 8 33",
+      "tel": "08000022833",
+      "hinweis": "Festnetz, kostenlos"
+    },
+    "notdienstHandy": {
+      "anzeige": "22 8 33",
+      "tel": "22833",
+      "hinweis": "Handy, 69 ct/Min.",
+      "vorlesen": "Handy, 69 Cent pro Minute"
+    },
+    "kartenApps": {
+      "apple": {
+        "name": "Apple Karten",
+        "url": "https://maps.apple.com/?daddr={lat},{lon}"
+      },
+      "google": {
+        "name": "Google Maps",
+        "url": "https://www.google.com/maps/dir/?api=1&destination={lat},{lon}"
+      }
+    },
+    "oeffnungszeiten": "Implementiert in docs/oeffnungszeiten.js (eigener kleiner Parser statt opening_hours.js: keine große Fremdbibliothek, vollständig prüfbar, Feiertagsverhalten genau steuerbar). Verstanden: 24/7; Regeln mit „;“ (spätere überschreiben frühere); Tage Mo–Su, Bereiche und Listen, PH; mehrere Zeitfenster; über Mitternacht; 24:00; off/closed. Alles andere: „Öffnungszeiten unbekannt – ruf an“. An bundesweiten gesetzlichen Feiertagen (fest hinterlegt, Ostern nach Gauß) „geöffnet“ nur bei 24/7 oder ausdrücklicher PH-Regel, sonst „Heute ist Feiertag – Notdienst nutzen oder anrufen“. Regionale Feiertage kennt die App nicht.",
+    "grenzen": [
+      "OpenStreetMap ist nicht vollständig; die Zahl wird bei jedem Lauf mit der ABDA-Zahl verglichen (16.488, Juni 2026).",
+      "Öffnungszeiten sind nicht überall eingetragen und ohne Gewähr.",
+      "Geschlossene Apotheken können noch in den Daten stehen.",
+      "Für den Notdienst gibt es keinen offenen Datensatz – deshalb nur Verweis auf aponet.de und die Rufnummern."
+    ]
+  }
+}

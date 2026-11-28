@@ -1,0 +1,1715 @@
+/* Engpass-Wächter – Stylesheet aus Design-Tokens (Tickets #19, #2): freundlich und warm, Akzent Pflaume,
+   Hauptbedienung unten in der Daumenzone. Alle Werte als CSS-Variablen; Hell/Dunkel folgt prefers-color-scheme,
+   data-theme="hell" / "dunkel" am <html> erzwingt ein Thema. Logische Eigenschaften (inline/block) für Rechts-nach-links. */
+
+/* ---------- Tokens ---------- */
+:root {
+    /* Farben – hell */
+    --grund: #faf6f0;
+    --flaeche: #ffffff;
+    --flaeche-2: #f3ece2;
+    --tinte: #2b241f;
+    --tinte-leise: #5e544b;
+    --linie: #e8dfd3;
+    --linie-stark: #8c8074;
+    --akzent: #76406f;
+    --akzent-hell: #f4e8f1;
+    --auf-akzent: #ffffff;
+    --gut: #2c6838;
+    --gut-hell: #e4f1e5;
+    --achtung: #875400;
+    --achtung-hell: #fcefd3;
+    --kritisch: #a0360e;
+    --kritisch-hell: #fbe5da;
+    --schatten-karte: 0 1px 2px rgba(43, 36, 31, 0.06), 0 6px 16px rgba(43, 36, 31, 0.06);
+    --schatten-gehoben: 0 12px 32px rgba(43, 36, 31, 0.22);
+    /* Umgekehrte Fläche für Bedienung, die keine Statusanzeige ist (z. B. „Entfernen“) – nie Rot */
+    --flaeche-umgekehrt: #2b241f;
+    --auf-umgekehrt: #faf6f0;
+    --schatten-leiste: 0 -1px 0 rgba(43, 36, 31, 0.08), 0 -8px 24px rgba(43, 36, 31, 0.08);
+
+    /* Abstände */
+    --a-1: 4px;
+    --a-2: 8px;
+    --a-3: 12px;
+    --a-4: 16px;
+    --a-5: 20px;
+    --a-6: 32px;
+    --a-7: 48px;
+    /* Radien */
+    --r-klein: 10px;
+    --r-knopf: 16px;
+    --r-karte: 24px;
+    --r-pille: 999px;
+    /* Bedienung */
+    --tippflaeche: 48px;
+    --wisch-breite: 104px;
+    --suchfeld-hoehe: 52px;
+    --fokus-breite: 3px;
+    --fokus-abstand: 2px;
+    --tab-hoehe: 64px;
+    /* Höhe der festen Leisten unten; app.js misst sie nach (ResizeObserver). */
+    --dock-hoehe: calc(140px + env(safe-area-inset-bottom));
+
+    /* Schrift (17 px = 1 rem) */
+    --schrift-rund: ui-rounded, "SF Pro Rounded", -apple-system, system-ui, sans-serif;
+    --schrift-text: -apple-system, system-ui, "Segoe UI", Roboto, "Noto Sans", sans-serif;
+    --gr-titel: 1.6471rem;
+    --zh-titel: 1.2143; /* 28/34 */
+    --gr-ueberschrift: 1.2941rem;
+    --zh-ueberschrift: 1.2727; /* 22/28 */
+    --gr-zwischen: 1.1176rem;
+    --zh-zwischen: 1.2632; /* 19/24 */
+    --gr-kennzahl: 2.5882rem;
+    --zh-kennzahl: 1.0909; /* 44/48 */
+    --gr-text: 1rem;
+    --zh-text: 1.4706; /* 17/25 */
+    --gr-klein: max(15px, 0.8824rem);
+    --zh-klein: 1.4; /* 15/21, nie unter 15 px */
+
+    color-scheme: light;
+}
+/* Dunkel: automatisch (ohne Wahl) oder erzwungen */
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="hell"]) {
+        --grund: #1a1714;
+        --flaeche: #25201c;
+        --flaeche-2: #2f2924;
+        --tinte: #f3ede6;
+        --tinte-leise: #bcb1a5;
+        --linie: #3a332d;
+        --linie-stark: #8a7e72;
+        --akzent: #ddadd6;
+        --akzent-hell: #37253a;
+        --auf-akzent: #16120f;
+        --gut: #8fd19e;
+        --gut-hell: #1c3123;
+        --achtung: #f0c56e;
+        --achtung-hell: #3a2e15;
+        --kritisch: #f4a27e;
+        --kritisch-hell: #3e2318;
+        --schatten-karte: none;
+        --schatten-gehoben: 0 12px 32px rgba(0, 0, 0, 0.6);
+        --flaeche-umgekehrt: #55493f;
+        --auf-umgekehrt: #f3ede6;
+        --schatten-leiste: 0 -1px 0 rgba(0, 0, 0, 0.6);
+        color-scheme: dark;
+    }
+}
+:root[data-theme="dunkel"] {
+    --grund: #1a1714;
+    --flaeche: #25201c;
+    --flaeche-2: #2f2924;
+    --tinte: #f3ede6;
+    --tinte-leise: #bcb1a5;
+    --linie: #3a332d;
+    --linie-stark: #8a7e72;
+    --akzent: #ddadd6;
+    --akzent-hell: #37253a;
+    --auf-akzent: #16120f;
+    --gut: #8fd19e;
+    --gut-hell: #1c3123;
+    --achtung: #f0c56e;
+    --achtung-hell: #3a2e15;
+    --kritisch: #f4a27e;
+    --kritisch-hell: #3e2318;
+    --schatten-karte: none;
+    --schatten-gehoben: 0 12px 32px rgba(0, 0, 0, 0.6);
+    --flaeche-umgekehrt: #55493f;
+    --auf-umgekehrt: #f3ede6;
+    --schatten-leiste: 0 -1px 0 rgba(0, 0, 0, 0.6);
+    color-scheme: dark;
+}
+
+/* ---------- Grundlagen ---------- */
+* {
+    box-sizing: border-box;
+}
+html {
+    font-size: 106.25%; /* 17 px, falls -apple-system-body fehlt */
+    line-height: var(--zh-text);
+    touch-action: manipulation;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    background: var(--grund);
+    /* Fokus und Sprungziele landen nie unter den Leisten unten (auch nicht unter „Rückgängig“) */
+    scroll-padding-block-end: calc(var(--dock-hoehe) + var(--rueckgaengig-hoehe, 0px) + var(--a-4));
+    scroll-padding-block-start: calc(env(safe-area-inset-top) + var(--a-2));
+}
+/* iOS-Textgröße (Dynamic Type) übernehmen */
+@supports (font: -apple-system-body) {
+    html {
+        font: -apple-system-body;
+    }
+}
+body {
+    margin: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
+    color: var(--tinte);
+    background: var(--grund);
+    font-family: var(--schrift-text);
+    font-size: var(--gr-text);
+    line-height: var(--zh-text);
+    /* Break long words only where needed and with hyphens (#22): never in the middle of „Dunkel“ at large text. */
+    overflow-wrap: break-word;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    -webkit-tap-highlight-color: transparent;
+    padding-block-start: calc(env(safe-area-inset-top) + var(--a-3));
+    padding-inline: calc(env(safe-area-inset-left) + var(--a-4))
+        calc(env(safe-area-inset-right) + var(--a-4));
+}
+h1,
+h2,
+h3,
+.kennzahl {
+    font-family: var(--schrift-rund);
+    color: var(--tinte);
+}
+h1,
+.titel {
+    font-size: var(--gr-titel);
+    line-height: var(--zh-titel);
+    font-weight: 700;
+    margin: var(--a-2) 0 var(--a-4);
+    letter-spacing: -0.01em;
+}
+h2,
+.ueberschrift {
+    letter-spacing: normal;
+    font-size: var(--gr-ueberschrift);
+    line-height: var(--zh-ueberschrift);
+    font-weight: 700;
+    margin: 0 0 var(--a-2);
+}
+h3,
+.zwischentitel {
+    font-size: var(--gr-zwischen);
+    line-height: var(--zh-zwischen);
+    font-weight: 600;
+    margin: 0 0 var(--a-1);
+}
+p {
+    margin: 0 0 var(--a-2);
+}
+p:last-child {
+    margin-block-end: 0;
+}
+a {
+    color: var(--akzent);
+}
+strong {
+    font-weight: 700;
+}
+.klein,
+.leise {
+    font-size: var(--gr-klein);
+    line-height: var(--zh-klein);
+}
+.leise {
+    color: var(--tinte-leise);
+}
+.nur-vorlesen,
+/* „Scannen“ next to the search field shows only the camera unless the bar is wide (#77, accessibility review): the
+   field must keep room for the 8 digits of a PZN. The name „Packung scannen“ stays for VoiceOver. */
+.scan-suche > span {
+    position: absolute !important;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+[hidden] {
+    display: none !important;
+}
+svg.sym {
+    inline-size: 24px;
+    block-size: 24px;
+    flex: none;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+[dir="rtl"] .spiegeln {
+    transform: scaleX(-1);
+}
+
+/* Fokus: 3 px in Akzent, 2 px Abstand */
+:focus {
+    outline: none;
+}
+:focus-visible,
+input:focus,
+select:focus {
+    outline: var(--fokus-breite) solid var(--akzent);
+    outline-offset: var(--fokus-abstand);
+}
+
+/* ---------- Seitenaufbau ---------- */
+.inhalt {
+    max-inline-size: 640px;
+    margin-inline: auto;
+    min-block-size: calc(100dvh - env(safe-area-inset-top) - var(--a-3));
+    display: flex;
+    flex-direction: column;
+    /* Platz für die festen Leisten unten, damit nichts verdeckt bleibt */
+    padding-block-end: calc(var(--dock-hoehe) + var(--rueckgaengig-hoehe, 0px) + var(--a-4));
+}
+.kern,
+.mehr {
+    display: block;
+}
+/* Treffer erscheinen direkt über dem Suchfeld (Daumenzone). */
+.ansicht-suche {
+    margin-block-start: auto;
+    display: flex;
+    flex-direction: column;
+}
+.stand {
+    font-size: var(--gr-klein);
+    line-height: var(--zh-klein);
+    color: var(--tinte-leise);
+    margin: var(--a-4) 0 0;
+}
+
+/* ---------- Karten ---------- */
+.karte {
+    background: var(--flaeche);
+    border-radius: var(--r-karte);
+    box-shadow: var(--schatten-karte);
+    border: 1px solid transparent;
+    padding: var(--a-5);
+    margin: 0 0 var(--a-4);
+}
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="hell"]) .karte {
+        border-color: var(--linie);
+    }
+}
+:root[data-theme="dunkel"] .karte {
+    border-color: var(--linie);
+}
+.karte > h2 + p,
+.karte > h3 + p {
+    margin-block-start: var(--a-1);
+}
+.abschnitt {
+    margin: var(--a-5) 0 var(--a-2);
+}
+.abschnitt-titel {
+    font-family: var(--schrift-rund);
+    font-size: var(--gr-zwischen);
+    line-height: var(--zh-zwischen);
+    font-weight: 600;
+    margin: var(--a-5) 0 var(--a-3);
+}
+.trenner {
+    border: 0;
+    border-block-start: 1px solid var(--linie);
+    margin: var(--a-4) 0;
+}
+
+/* Statuskarte oben auf der Detailseite */
+.statuskarte .kopfzeile {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--a-2) var(--a-3);
+    margin-block-end: var(--a-3);
+}
+.statuskarte .kopfzeile h1,
+.statuskarte .kopfzeile h2 {
+    min-inline-size: 0;
+    margin: 0;
+}
+.kernaussage {
+    font-weight: 700;
+    font-size: var(--gr-text);
+}
+.zeitraum {
+    font-size: var(--gr-klein);
+    color: var(--tinte-leise);
+}
+
+/* Große Zahl */
+.kennzahl-satz .kennzahl {
+    display: block;
+}
+.kennzahl-satz .status {
+    display: block;
+}
+.kennzahl {
+    font-size: var(--gr-kennzahl);
+    line-height: var(--zh-kennzahl);
+    font-weight: 700;
+    margin: var(--a-2) 0 var(--a-1);
+    font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Statusmarken: immer Symbol + Wort ---------- */
+.marke {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px 4px 10px;
+    border-radius: var(--r-pille);
+    font-size: var(--gr-klein);
+    line-height: var(--zh-klein);
+    font-weight: 600;
+    background: var(--flaeche-2);
+    color: var(--tinte);
+    max-inline-size: 100%;
+}
+.marke svg.sym {
+    inline-size: 18px;
+    block-size: 18px;
+    stroke-width: 2.2;
+}
+.marke.gut {
+    background: var(--gut-hell);
+    color: var(--gut);
+}
+.marke.achtung {
+    background: var(--achtung-hell);
+    color: var(--achtung);
+}
+.marke.kritisch {
+    background: var(--kritisch-hell);
+    color: var(--kritisch);
+}
+.marke.info {
+    background: var(--akzent-hell);
+    color: var(--akzent);
+}
+.marke.neu {
+    background: var(--akzent-hell);
+    color: var(--tinte);
+    font-weight: 600;
+}
+/* Textfarbe in Marken: Wort in Statusfarbe ist auf der hellen Fläche kontraststark genug (siehe abgabe/design). */
+
+/* ---------- Hinweise als Balken bei der Aussage ---------- */
+.balken {
+    display: flex;
+    gap: var(--a-3);
+    align-items: flex-start;
+    padding: var(--a-3) var(--a-4);
+    margin: 0 0 var(--a-3);
+    border-radius: var(--r-knopf);
+    background: var(--achtung-hell);
+    color: var(--tinte);
+    border-inline-start: 4px solid var(--achtung);
+    font-size: var(--gr-klein);
+    line-height: var(--zh-klein);
+}
+.balken.kritisch {
+    background: var(--kritisch-hell);
+    border-inline-start-color: var(--kritisch);
+}
+.balken svg.sym {
+    color: var(--achtung);
+    margin-block-start: -1px;
+}
+/* Veraltete Daten (Prüfung 9: data-testid="daten-veraltet") */
+.marke.alt {
+    display: flex;
+    border-radius: var(--r-knopf);
+    padding: var(--a-3) var(--a-4);
+    margin: 0 0 var(--a-3);
+    background: var(--achtung-hell);
+    color: var(--tinte);
+    border-inline-start: 4px solid var(--achtung);
+    font-weight: 600;
+}
+.hinweise:empty {
+    display: none;
+}
+
+/* ---------- Knöpfe ---------- */
+.knopf {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--a-2);
+    min-block-size: var(--tippflaeche);
+    min-inline-size: var(--tippflaeche);
+    padding: 10px var(--a-5);
+    font: inherit;
+    font-weight: 600;
+    line-height: 1.25;
+    text-align: center;
+    border-radius: var(--r-knopf);
+    border: 1.5px solid var(--akzent);
+    background: var(--akzent);
+    color: var(--auf-akzent);
+    cursor: pointer;
+}
+.knopf.zweit {
+    background: var(--flaeche);
+    color: var(--akzent);
+    border-color: var(--linie-stark);
+}
+.knopf.breit {
+    inline-size: 100%;
+}
+.knopfreihe {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--a-2);
+    margin-block-start: var(--a-3);
+}
+.knopfreihe .knopf {
+    flex: 1 1 auto;
+}
+.link-knopf {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 44px;
+    min-inline-size: 44px;
+    padding: 0 var(--a-1);
+    background: none;
+    border: 0;
+    font: inherit;
+    font-weight: 600;
+    color: var(--akzent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+}
+
+/* Listen aus antippbaren Zeilen (Meine, Treffer, Neuigkeiten, Mehr) */
+.zeilen {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.zeilen > li + li {
+    border-block-start: 1px solid var(--linie);
+}
+.zeile {
+    display: flex;
+    align-items: center;
+    gap: var(--a-3);
+    inline-size: 100%;
+    min-block-size: 56px;
+    padding: var(--a-3) var(--a-1);
+    font: inherit;
+    color: var(--tinte);
+    text-align: start;
+    background: none;
+    border: 0;
+    border-radius: var(--r-klein);
+    cursor: pointer;
+}
+.zeile .mitte {
+    flex: 1 1 auto;
+    min-inline-size: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.zeile .name {
+    font-weight: 700;
+}
+.zeile .meta {
+    font-size: var(--gr-klein);
+    line-height: var(--zh-klein);
+    color: var(--tinte-leise);
+}
+.zeile .marke {
+    align-self: flex-start;
+    margin-block-start: 4px;
+}
+.zeile > svg.sym {
+    color: var(--tinte-leise);
+}
+.zeile .vorne {
+    color: var(--akzent);
+}
+.karte.liste {
+    padding-block: var(--a-2);
+    padding-inline: var(--a-4);
+}
+
+/* Treffer: Karten über dem Suchfeld */
+.treffer {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--a-2);
+}
+.treffer:empty {
+    display: none;
+}
+.treffer button {
+    display: flex;
+    align-items: center;
+    gap: var(--a-3);
+    inline-size: 100%;
+    min-block-size: 56px;
+    padding: var(--a-3) var(--a-4);
+    font: inherit;
+    font-weight: 700;
+    color: var(--tinte);
+    text-align: start;
+    background: var(--flaeche);
+    border: 1px solid var(--linie);
+    border-radius: var(--r-knopf);
+    box-shadow: var(--schatten-karte);
+    cursor: pointer;
+}
+.treffer button .mitte {
+    flex: 1 1 auto;
+    min-inline-size: 0;
+}
+.treffer .meta {
+    display: block;
+    font-weight: 400;
+    font-size: var(--gr-klein);
+    line-height: var(--zh-klein);
+    color: var(--tinte-leise);
+}
+.treffer button > svg.sym {
+    color: var(--tinte-leise);
+}
+.treffer .marke {
+    margin-block-start: var(--a-1);
+    font-weight: 600;
+}
+.treffer li.leise {
+    padding: var(--a-2) var(--a-1);
+}
+
+/* ---------- Aufklapper ---------- */
+.aufklapp {
+    background: var(--flaeche-2);
+    border-radius: var(--r-knopf);
+    margin: var(--a-3) 0 0;
+}
+.aufklapp > summary {
+    display: flex;
+    align-items: center;
+    gap: var(--a-2);
+    min-block-size: var(--tippflaeche);
+    padding: var(--a-2) var(--a-4);
+    font-weight: 600;
+    color: var(--tinte);
+    list-style: none;
+    cursor: pointer;
+    border-radius: var(--r-knopf);
+}
+/* A heading as the label of a section that opens (#22): it looks like the summary text. */
+.aufklapp > summary > .aufklapp-titel {
+    font: inherit;
+    margin: 0;
+}
+.aufklapp > summary::-webkit-details-marker {
+    display: none;
+}
+.aufklapp > summary::after {
+    content: "";
+    margin-inline-start: auto;
+    flex: none;
+    inline-size: 10px;
+    block-size: 10px;
+    border-inline-end: 2px solid currentColor;
+    border-block-end: 2px solid currentColor;
+    transform: rotate(45deg);
+    margin-block-start: -4px;
+}
+.aufklapp[open] > summary::after {
+    transform: rotate(-135deg);
+    margin-block-start: 4px;
+}
+.aufklapp > :not(summary) {
+    margin-inline: var(--a-4);
+}
+.aufklapp > :last-child:not(summary) {
+    margin-block-end: var(--a-4);
+}
+.karte.aufklapp {
+    background: var(--flaeche);
+    padding: 0;
+}
+.karte.aufklapp > summary {
+    min-block-size: 56px;
+    padding: var(--a-3) var(--a-5);
+    font-family: var(--schrift-rund);
+    font-size: var(--gr-zwischen);
+}
+.karte.aufklapp > :not(summary) {
+    margin-inline: var(--a-5);
+}
+.karte.aufklapp > :last-child:not(summary) {
+    margin-block-end: var(--a-5);
+}
+
+/* ---------- Eingaben ---------- */
+.feldtitel {
+    display: block;
+    font-weight: 600;
+    margin: var(--a-3) 0 6px;
+}
+input[type="search"],
+input[type="text"],
+select {
+    inline-size: 100%;
+    min-block-size: var(--tippflaeche);
+    padding: 10px 14px;
+    font: inherit;
+    font-size: max(16px, 1rem);
+    color: var(--tinte);
+    background: var(--flaeche);
+    border: 1.5px solid var(--linie-stark);
+    border-radius: var(--r-knopf);
+    -webkit-appearance: none;
+    appearance: none;
+}
+select {
+    padding-inline-end: 40px;
+    background-image:
+        linear-gradient(45deg, transparent 50%, var(--tinte-leise) 50%),
+        linear-gradient(135deg, var(--tinte-leise) 50%, transparent 50%);
+    background-position:
+        calc(100% - 22px) 50%,
+        calc(100% - 16px) 50%;
+    background-size: 6px 6px;
+    background-repeat: no-repeat;
+}
+[dir="rtl"] select {
+    background-position:
+        16px 50%,
+        22px 50%;
+}
+.zahl-einheit {
+    display: flex;
+    gap: var(--a-2);
+}
+.zahl-einheit > div {
+    flex: 1 1 50%;
+    min-inline-size: 0;
+}
+.eingabe-bereich {
+    background: var(--flaeche-2);
+    border-radius: var(--r-karte);
+    padding: var(--a-4);
+    margin-block-start: var(--a-3);
+}
+.rueckmeldung {
+    color: var(--gut);
+    font-weight: 600;
+    margin: var(--a-2) 0 0;
+}
+.rueckmeldung.fehler {
+    color: var(--kritisch);
+}
+.vorschlag {
+    border: 1.5px solid var(--akzent);
+    border-radius: var(--r-knopf);
+    padding: var(--a-3) var(--a-4);
+    margin: 0 0 var(--a-3);
+    background: var(--akzent-hell);
+}
+.vorschlag p {
+    margin: 0 0 var(--a-2);
+    font-weight: 600;
+}
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--a-2);
+    margin: var(--a-2) 0 0;
+}
+.chips .knopf {
+    padding-inline: var(--a-4);
+    border-radius: var(--r-pille);
+    font-weight: 600;
+}
+
+/* Gruppen der Meldungen */
+.gruppe {
+    border-block-start: 1px solid var(--linie);
+    padding-block-start: var(--a-4);
+    margin-block-start: var(--a-4);
+}
+.gruppe:first-of-type {
+    border-block-start: 0;
+    padding-block-start: 0;
+    margin-block-start: var(--a-2);
+}
+.hersteller-liste {
+    margin: var(--a-1) 0 var(--a-2);
+    padding-inline-start: var(--a-5);
+}
+.hersteller-liste li {
+    margin: 2px 0;
+}
+.status {
+    font-weight: 600;
+}
+.status.eigen {
+    border-inline-start: 4px solid var(--akzent);
+    padding-inline-start: var(--a-3);
+}
+
+/* Quellen */
+.quellen {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.quellen li + li {
+    margin-block-start: var(--a-4);
+    padding-block-start: var(--a-4);
+    border-block-start: 1px solid var(--linie);
+}
+.quellen a,
+.karte a.link {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 44px;
+    min-inline-size: 44px;
+    padding: 0 2px;
+    color: var(--akzent);
+    font-weight: 600;
+    text-underline-offset: 3px;
+}
+
+/* Segmentschalter (Erscheinungsbild) */
+.segment {
+    display: flex;
+    padding: var(--a-1);
+    gap: var(--a-1);
+    background: var(--flaeche-2);
+    border-radius: var(--r-pille);
+}
+.segment button {
+    flex: 1 1 0;
+    min-inline-size: 0;
+    min-block-size: var(--tippflaeche);
+    padding: 6px var(--a-1);
+    font: inherit;
+    font-size: var(--gr-klein);
+    line-height: 1.25;
+    font-weight: 600;
+    color: var(--tinte);
+    overflow-wrap: break-word;
+    hyphens: auto;
+    background: transparent;
+    border: 0;
+    border-radius: var(--r-pille);
+    cursor: pointer;
+}
+.segment button[aria-pressed="true"] {
+    background: var(--flaeche);
+    color: var(--akzent);
+    box-shadow: var(--schatten-karte);
+    outline: 1.5px solid var(--akzent);
+    outline-offset: -1.5px;
+}
+/* The focus ring stays visible on the chosen option too (#22, WCAG 2.4.7). */
+.segment button[aria-pressed="true"]:focus-visible {
+    outline: var(--fokus-breite) solid var(--akzent);
+    outline-offset: var(--fokus-abstand);
+}
+
+/* Leerzustand */
+.leer {
+    text-align: center;
+    padding: var(--a-6) var(--a-5);
+}
+.leer .bild {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: 56px;
+    block-size: 56px;
+    border-radius: var(--r-pille);
+    background: var(--akzent-hell);
+    color: var(--akzent);
+    margin-block-end: var(--a-3);
+}
+.leer .bild svg.sym {
+    inline-size: 28px;
+    block-size: 28px;
+}
+
+/* ---------- Feste Leisten unten (Daumenzone) ---------- */
+.dock {
+    position: fixed;
+    inset-inline: 0;
+    inset-block-end: 0;
+    z-index: 10;
+    background: var(--flaeche);
+    box-shadow: var(--schatten-leiste);
+    border-start-start-radius: var(--r-karte);
+    border-start-end-radius: var(--r-karte);
+    padding-inline: env(safe-area-inset-left) env(safe-area-inset-right);
+    padding-block-end: env(safe-area-inset-bottom);
+}
+/* Weicher Übergang über der Leiste; fängt keine Berührungen ab */
+.dock::before {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: 100%;
+    block-size: var(--a-4);
+    background: linear-gradient(to bottom, transparent, var(--grund));
+    pointer-events: none;
+}
+.dock-innen {
+    max-inline-size: 640px;
+    margin-inline: auto;
+}
+.suchleiste {
+    /* The width of the bar decides whether „Scannen“ shows its word (below, #77). */
+    container-type: inline-size;
+    padding: var(--a-3) var(--a-4) 0;
+    display: flex;
+    align-items: center;
+    gap: var(--a-2);
+}
+.suchleiste .suchfeld {
+    flex: 1 1 0;
+    min-inline-size: 0;
+}
+/* „Scannen“ next to the search field (#77): in the thumb zone, as round as the field. */
+.scan-suche {
+    position: relative;
+    flex: none;
+    min-block-size: var(--suchfeld-hoehe);
+    min-inline-size: var(--suchfeld-hoehe);
+    border-radius: var(--r-pille);
+    padding-inline: var(--a-2);
+}
+/* Wide bar (tablet, landscape): the word „Scannen“ is shown next to the camera. */
+@container (min-width: 30em) {
+    .scan-suche {
+        padding-inline: var(--a-3);
+    }
+    .scan-suche > span {
+        position: static !important;
+        inline-size: auto;
+        block-size: auto;
+        overflow: visible;
+        clip: auto;
+        clip-path: none;
+    }
+}
+/* Large text: once something is typed, „Scannen“ steps aside and the field takes the whole width – a whole PZN stays
+   visible even at 320 px (#77). With an empty field (or after „Suche löschen“) the camera is back. */
+:root[data-schrift="gross"] .suchleiste:has(input:not(:placeholder-shown)) .scan-suche {
+    display: none;
+}
+/* Large text: no magnifier inside the field, so a whole PZN stays visible even at 320 px (#77). */
+:root[data-schrift="gross"] .suchfeld > svg.sym {
+    display: none;
+}
+:root[data-schrift="gross"] .suchfeld input[type="search"] {
+    padding-inline-start: var(--a-4);
+}
+/* Room for the typed text: the space of „Suche löschen“ is kept only while that button is shown. */
+.suchfeld:has(> .loeschen[hidden]) input[type="search"] {
+    padding-inline-end: var(--a-4);
+}
+/* A status word that cannot be hyphenated („Versorgungskritisch“) never widens the page (#22). */
+.marke {
+    max-inline-size: 100%;
+    overflow-wrap: anywhere;
+}
+/* Calm lines for a typed PZN (#77): counter and hints with symbol, no error colour. */
+.treffer .pzn-hinweis {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--a-2);
+    padding: var(--a-2) var(--a-1);
+    color: var(--tinte-leise);
+}
+.treffer .pzn-hinweis svg.sym {
+    inline-size: 1.25em;
+    block-size: 1.25em;
+}
+.suchfeld {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.suchfeld > svg.sym {
+    position: absolute;
+    inset-inline-start: 16px;
+    color: var(--tinte-leise);
+    pointer-events: none;
+}
+.suchfeld input[type="search"] {
+    border-radius: var(--r-pille);
+    min-block-size: var(--suchfeld-hoehe);
+    padding-inline: 48px 52px;
+    background: var(--grund);
+    border-color: var(--linie-stark);
+}
+.suchfeld input::-webkit-search-cancel-button,
+.suchfeld input::-webkit-search-decoration {
+    -webkit-appearance: none;
+    appearance: none;
+    display: none;
+}
+.suchfeld input::placeholder {
+    color: var(--tinte-leise);
+    opacity: 1;
+}
+.loeschen {
+    position: absolute;
+    inset-inline-end: 2px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: var(--tippflaeche);
+    block-size: var(--tippflaeche);
+    padding: 0;
+    background: none;
+    border: 0;
+    border-radius: var(--r-pille);
+    color: var(--tinte-leise);
+    cursor: pointer;
+}
+.aktionsleiste {
+    display: flex;
+    gap: var(--a-3);
+    padding: var(--a-3) var(--a-4) 0;
+}
+.aktionsleiste .knopf {
+    flex: 1 1 0;
+    min-inline-size: 0;
+}
+.aktionsleiste .knopf.zweit {
+    flex: 0 1 auto;
+}
+
+/* Notice „Neue Version da.“ at the top of the content (#22: not in the fixed bar, which must stay small at large
+   text). One line: text, then „Später“ and „Jetzt laden“; it wraps only at large text (#31). */
+.neue-version {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--a-1) var(--a-2);
+    margin-block-end: var(--a-3);
+    padding-block: var(--a-1);
+    padding-inline: var(--a-3) var(--a-1);
+    background: var(--akzent-hell);
+    border: 1.5px solid var(--akzent);
+    border-radius: var(--r-knopf);
+}
+.neue-version-text {
+    flex: 1 0 auto;
+    margin: 0;
+    font-size: var(--gr-klein);
+    line-height: var(--zh-klein);
+    font-weight: 600;
+    color: var(--tinte);
+    white-space: nowrap;
+}
+.neue-version-knoepfe {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--a-1);
+    margin-inline-start: auto;
+}
+.neue-version .link-knopf {
+    min-block-size: var(--tippflaeche);
+    min-inline-size: var(--tippflaeche);
+    padding-inline: var(--a-1);
+}
+.neue-version .knopf {
+    padding-inline: var(--a-3);
+    white-space: nowrap;
+}
+.version {
+    margin: var(--a-4) var(--a-1) 0;
+}
+/* Geführte Auswahl und Mein Produkt (#18) */
+.frage-wirkstoff {
+    margin: 0 0 var(--a-1);
+    font-weight: 600;
+    color: var(--tinte-leise);
+}
+.frage h1 {
+    margin-block-end: var(--a-1);
+}
+.chips.wahl {
+    margin-block: var(--a-3);
+}
+.chips.wahl .knopf {
+    min-inline-size: 64px;
+}
+.knopf:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+.listen-titel {
+    margin: var(--a-2) 0 var(--a-1);
+}
+.produkte .zeile svg.gedreht {
+    transform: rotate(90deg);
+}
+.produkt-details {
+    padding: 0 var(--a-1) var(--a-3);
+}
+.produkt-details p {
+    margin: 0 0 var(--a-2);
+}
+.hinweis-info {
+    display: flex;
+    gap: var(--a-2);
+    align-items: flex-start;
+    margin: var(--a-3) var(--a-1);
+    color: var(--tinte-leise);
+    font-size: var(--gr-klein);
+    line-height: var(--zh-klein);
+}
+.hinweis-info svg.sym {
+    color: var(--akzent);
+    flex: none;
+    inline-size: 20px;
+    block-size: 20px;
+    margin-block-start: 1px;
+}
+.hinweis-info.gut svg.sym {
+    color: var(--gut);
+}
+.hinweis-info.achtung svg.sym {
+    color: var(--achtung);
+}
+.unter-liste {
+    margin: 0 0 var(--a-3);
+}
+.unter-liste .link-knopf {
+    min-block-size: var(--tippflaeche);
+}
+.pzn-karte {
+    border-radius: var(--r-knopf);
+    padding: var(--a-3) var(--a-4);
+    margin: var(--a-3) 0;
+}
+.pzn-karte.achtung {
+    background: var(--achtung-hell);
+}
+.pzn-karte.gut {
+    background: var(--gut-hell);
+}
+.pzn-karte .status {
+    font-weight: 600;
+    margin-block-start: var(--a-2);
+}
+#pzn-eingabe {
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.04em;
+}
+/* Apotheken in der Nähe (#15) */
+a.knopf {
+    text-decoration: none;
+}
+.ort-zeile .knopf {
+    flex: none;
+    white-space: nowrap;
+}
+.apo-einstieg {
+    justify-content: flex-start;
+    text-align: start;
+    gap: var(--a-3);
+    margin-block-start: var(--a-3);
+    padding-block: var(--a-3);
+}
+.apo-einstieg .mitte,
+.notdienst-tel {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.unterzeile {
+    font-size: var(--gr-klein);
+    line-height: var(--zh-klein);
+    font-weight: 400;
+    opacity: 0.9;
+}
+.notdienst {
+    border: 1.5px solid var(--akzent);
+}
+.notdienst .knopfreihe .knopf {
+    flex: 1 1 200px;
+}
+.notdienst-tel > span:first-child {
+    white-space: nowrap;
+}
+.notdienst-tel {
+    align-items: center;
+}
+.ort-zeile {
+    display: flex;
+    gap: var(--a-2);
+}
+.ort-zeile input {
+    flex: 1 1 auto;
+    min-inline-size: 0;
+}
+.apo-ort {
+    margin: var(--a-3) var(--a-1);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0 var(--a-1);
+}
+.apo-ort .link-knopf {
+    min-block-size: var(--tippflaeche);
+}
+/* Choice of places with the same name (#50): clearly apart from the filter below. */
+.apo-auswahl {
+    margin-block: var(--a-3) var(--a-5);
+}
+/* Own input of the strength inside the question card (#41): room below the dividing line. */
+.selbst-eingeben {
+    padding-block-start: var(--a-4);
+    margin-block-start: var(--a-5);
+}
+.selbst-eingeben h2 {
+    margin-block-start: 0;
+}
+.apo-filter {
+    margin: var(--a-2) 0;
+}
+.apo-status {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: var(--a-1);
+    font-size: var(--gr-klein);
+    line-height: var(--zh-klein);
+    font-weight: 600;
+    margin-block-start: 2px;
+}
+.apo-status svg.sym {
+    inline-size: 1.25em;
+    block-size: 1.25em;
+}
+.apo-status.offen {
+    color: var(--gut);
+}
+.apo-status.zu {
+    color: var(--tinte-leise);
+}
+.apo-status.unbekannt,
+.apo-status.feiertag {
+    color: var(--achtung);
+}
+.apo-zeiten {
+    margin: 0 0 var(--a-2);
+    padding-inline-start: 1.1em;
+    color: var(--tinte-leise);
+}
+.apo-fuss {
+    margin: var(--a-3) var(--a-1) 0;
+}
+.karte-hinweis {
+    margin-block-start: var(--a-2);
+}
+.blatt-hintergrund {
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    background: rgba(20, 16, 12, 0.45);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+.blatt {
+    inline-size: 100%;
+    max-inline-size: 640px;
+    background: var(--flaeche);
+    border-start-start-radius: var(--r-karte);
+    border-start-end-radius: var(--r-karte);
+    padding: var(--a-5) var(--a-4) calc(var(--a-4) + env(safe-area-inset-bottom));
+    display: flex;
+    flex-direction: column;
+    gap: var(--a-2);
+    box-shadow: var(--schatten-leiste);
+    /* Large text (#22): the sheet scrolls instead of being cut off at the top (overflow-y: Safari has no
+       overflow-block); scrolling in it does not move the page behind. */
+    max-block-size: calc(100dvh - env(safe-area-inset-top));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+/* Product from the test data (#79): calm, without a state of supply. */
+.pzn-karte.testprodukt {
+    margin-block-start: var(--a-2);
+    background: var(--flaeche-2);
+}
+.pzn-karte.testprodukt .name {
+    font-weight: 600;
+    margin-block-start: var(--a-1);
+}
+/* Camera picture for „Packung scannen“ (#43) */
+.scan-knopf {
+    margin-block: var(--a-2);
+}
+.scan-rahmen {
+    border-radius: var(--r-knopf);
+    overflow: hidden;
+    background: var(--flaeche-2);
+    aspect-ratio: 4 / 3;
+}
+.scan-bild {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+}
+.blatt .link-knopf {
+    align-self: center;
+    min-block-size: var(--tippflaeche);
+}
+.merken-schalter {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--a-2);
+    min-block-size: var(--tippflaeche);
+    padding: 0 var(--a-1);
+    background: none;
+    border: 0;
+    font: inherit;
+    color: var(--tinte);
+    cursor: pointer;
+    text-align: start;
+}
+.merken-schalter::before {
+    content: "";
+    flex: none;
+    inline-size: 22px;
+    block-size: 22px;
+    border-radius: 6px;
+    border: 2px solid var(--linie-stark);
+}
+.merken-schalter[aria-checked="true"]::before {
+    background: var(--akzent);
+    border-color: var(--akzent);
+}
+/* The tick in the colour for text on the accent (#22): ≥ 3 : 1 in light and dark (white on the light plum of the dark
+   mode had only 1.9 : 1). Drawn as a mask, so it takes the token colour. */
+.merken-schalter[aria-checked="true"]::after {
+    content: "";
+    position: absolute;
+    inset-inline-start: calc(var(--a-1) + 3px);
+    inset-block-start: 50%;
+    inline-size: 16px;
+    block-size: 16px;
+    margin-block-start: -8px;
+    background: var(--auf-akzent);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E")
+        center / 16px no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E")
+        center / 16px no-repeat;
+}
+/* „Was ist neu“ (#32): Karte oben in „Meine“ und Aufklapper unter „Mehr“ */
+.neu-karte {
+    background: var(--akzent-hell);
+    border: 1.5px solid var(--akzent);
+}
+.neu-karte .link-knopf {
+    min-block-size: var(--tippflaeche);
+}
+.neu-punkte {
+    margin: var(--a-2) 0;
+    padding-inline-start: 1.25em;
+}
+.neu-datum {
+    margin: var(--a-3) 0 0;
+    font-size: var(--gr-klein);
+    line-height: var(--zh-klein);
+    color: var(--tinte-leise);
+    font-weight: 600;
+}
+.neu-punkte li + li {
+    margin-block-start: var(--a-1);
+}
+.was-neu {
+    margin-block-start: var(--a-2);
+}
+.was-neu > :not(summary) {
+    margin-inline: var(--a-4);
+}
+.was-neu > :last-child:not(summary) {
+    margin-block-end: var(--a-3);
+}
+.was-neu h3 {
+    margin-block-start: var(--a-3);
+}
+.tabs {
+    display: flex;
+    padding: var(--a-1) var(--a-2) 0;
+    min-block-size: var(--tab-hoehe);
+}
+.tab {
+    flex: 1 1 0;
+    min-inline-size: 0;
+    min-block-size: 56px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    padding: var(--a-1) 2px;
+    font: inherit;
+    font-size: clamp(15px, 0.8824rem, 17px);
+    line-height: 1.2;
+    font-weight: 500;
+    color: var(--tinte-leise);
+    background: none;
+    border: 0;
+    border-radius: var(--r-knopf);
+    cursor: pointer;
+}
+.tab .pille {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: 56px;
+    block-size: 30px;
+    border-radius: var(--r-pille);
+}
+.tab[aria-current="page"] {
+    color: var(--akzent);
+    font-weight: 700;
+}
+.tab[aria-current="page"] .pille {
+    background: var(--akzent-hell);
+}
+/* Active tab not by colour alone (#22, WCAG 1.4.1): filled symbol and bold word, as in the iOS tab bar. Open shapes
+   (magnifier, lines) get a stronger line instead. */
+.tab[aria-current="page"] svg.sym {
+    stroke-width: 2.6;
+}
+.tab[aria-current="page"][data-tab="meine"] svg.sym,
+.tab[aria-current="page"][data-tab="neu"] svg.sym path:first-child,
+.tab[aria-current="page"][data-tab="suchen"] svg.sym circle {
+    fill: currentColor;
+}
+.tab[aria-current="page"][data-tab="suchen"] svg.sym circle {
+    fill-opacity: 0.35;
+}
+/* Beschriftung der Tabs wächst bis 17 px mit (wie die iOS-Tableiste), damit „Neuigkeiten“ nicht mitten im Wort bricht */
+.tab .wort {
+    max-inline-size: 100%;
+    overflow-wrap: break-word;
+    hyphens: auto;
+}
+
+/* Large text: „Neue Version da.“ and its buttons may wrap (#22) instead of being cut off at 320 px. */
+:root[data-schrift="gross"] .neue-version-text,
+:root[data-schrift="gross"] .neue-version .knopf {
+    white-space: normal;
+}
+/* Long words without a hyphenation point (substance names, PZN): headings, names and labels may break anywhere as a
+   last resort, so nothing sticks out at large text (WCAG 1.4.10). Flex items with text may shrink below their longest
+   word. Body text keeps break-word with hyphens, so „Dunkel“ is never cut in the middle. */
+h1,
+h2,
+h3,
+summary,
+.name,
+.meta,
+.unterzeile,
+.kernaussage {
+    overflow-wrap: anywhere;
+}
+.kopfzeile > *,
+.zeile .mitte > *,
+summary > * {
+    min-inline-size: 0;
+}
+/* Large text (#22, decision of 27.11.2026): the fixed bar must not take the screen. Tabs show only their symbols – the
+   word stays for VoiceOver (visually hidden, still the name of the button); the action bar may wrap. navigation.js
+   sets data-schrift="gross" from the actual text size (Dynamic Type). In a low landscape screen at normal text the tabs
+   show symbol and word side by side (below). */
+/* Invisible 1em box: navigation.js reads the text size from it. */
+.schrift-messung {
+    position: absolute;
+    inset-block-start: 0;
+    inline-size: 1em;
+    block-size: 1em;
+    visibility: hidden;
+    pointer-events: none;
+}
+:root[data-schrift="gross"] .tab .wort {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+:root[data-schrift="gross"] .tab .pille {
+    inline-size: 64px;
+    block-size: 40px;
+}
+:root[data-schrift="gross"] .tab svg.sym {
+    inline-size: 28px;
+    block-size: 28px;
+}
+:root[data-schrift="gross"] .aktionsleiste {
+    flex-wrap: wrap;
+}
+:root[data-schrift="gross"] .aktionsleiste .knopf {
+    flex: 1 1 auto;
+}
+
+/* Bedienelemente, deren Mitte gerade unter den festen Leisten liegt, werden ausgeblendet (app.js),
+   damit nie ein halb verdecktes Element angetippt wird. Sie erscheinen beim Scrollen wieder. */
+.unter-leiste {
+    opacity: 0 !important;
+}
+
+/* Querformat mit wenig Höhe: Leiste kompakter */
+@media (orientation: landscape) and (max-height: 500px) {
+    .tabs {
+        min-block-size: 52px;
+    }
+    .tab {
+        flex-direction: row;
+        gap: var(--a-2);
+        min-block-size: 48px;
+    }
+    .tab .pille {
+        inline-size: 40px;
+        block-size: 28px;
+    }
+    .suchleiste,
+    .aktionsleiste {
+        padding-block-start: var(--a-2);
+    }
+    h1,
+    .titel {
+        font-size: var(--gr-ueberschrift);
+        line-height: var(--zh-ueberschrift);
+    }
+}
+
+/* Hover nur, wo es Hover gibt – nichts hängt davon ab */
+@media (hover: hover) {
+    .zeile:hover,
+    .treffer button:hover {
+        background: var(--flaeche-2);
+    }
+    .knopf:hover {
+        filter: brightness(1.06);
+    }
+    .tab:hover {
+        color: var(--akzent);
+    }
+}
+@media (prefers-reduced-motion: no-preference) {
+    .tab .pille,
+    .segment button {
+        transition: background-color 0.15s ease;
+    }
+}
+
+/* Ergänzungen zum Aufbau */
+.ausklapp-inhalt {
+    padding: 0 var(--a-1) var(--a-4);
+}
+.zeile[aria-expanded="true"] > svg.sym:last-child {
+    transform: rotate(90deg);
+}
+[dir="rtl"] .zeile[aria-expanded="true"] > svg.sym:last-child {
+    transform: scaleX(-1) rotate(90deg);
+}
+#merken.gemerkt svg.sym path {
+    fill: currentColor;
+}
+.karte.leer h2 {
+    font-size: var(--gr-zwischen);
+    line-height: var(--zh-zwischen);
+}
+p.zeile {
+    cursor: default;
+    margin: 0;
+}
+
+/* Kacheln in „Meine“ (#86): wischen zum Entfernen, halten und ziehen zum Sortieren, „Bearbeiten“ ohne Gesten */
+.meine-kopf-zeile {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--a-2);
+    margin-block-end: var(--a-2);
+}
+.meine-kopf .unterzeile {
+    margin: 0;
+    font-size: var(--gr-klein);
+    line-height: var(--zh-klein);
+}
+.link-knopf.bearbeiten {
+    min-block-size: var(--tippflaeche);
+    text-decoration: none;
+    padding-inline: var(--a-3);
+    flex: none;
+}
+.karte.meine-kacheln {
+    background: none;
+    box-shadow: none;
+    border: 0;
+    padding: 0;
+}
+.kachel-hinweis {
+    margin: 0 0 var(--a-3);
+    padding: var(--a-3) var(--a-4);
+    border-radius: var(--r-knopf);
+    background: var(--flaeche-2);
+    font-size: var(--gr-klein);
+    line-height: var(--zh-klein);
+}
+.zeilen.kacheln {
+    display: flex;
+    flex-direction: column;
+    gap: var(--a-3);
+}
+.zeilen.kacheln > li + li {
+    border-block-start: 0;
+}
+.kachel {
+    position: relative;
+    border-radius: var(--r-karte);
+}
+.kachel-flaeche {
+    position: relative;
+    z-index: 1;
+    background: var(--flaeche);
+    border-radius: var(--r-karte);
+    box-shadow: var(--schatten-karte);
+    touch-action: pan-y;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+}
+.kachel-flaeche .zeile {
+    padding: var(--a-4) var(--a-5);
+    border-radius: var(--r-karte);
+}
+.kachel-hinter {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: flex-end;
+    border-radius: var(--r-karte);
+    background: var(--flaeche-2);
+}
+.wisch-entfernen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--a-1);
+    inline-size: var(--wisch-breite);
+    border: 0;
+    border-start-end-radius: var(--r-karte);
+    border-end-end-radius: var(--r-karte);
+    background: var(--flaeche-umgekehrt);
+    color: var(--auf-umgekehrt);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+.kachel.angehoben {
+    z-index: 2;
+}
+.kachel.angehoben .kachel-flaeche {
+    scale: 1.03;
+    box-shadow: var(--schatten-gehoben);
+    outline: 1.5px solid var(--linie-stark);
+}
+.kachel-aktionen {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--a-2);
+    padding-block-start: var(--a-2);
+}
+.kachel-aktionen .knopf {
+    padding-inline: var(--a-2);
+    min-inline-size: 0;
+}
+.knopf.umgekehrt {
+    background: var(--flaeche-umgekehrt);
+    color: var(--auf-umgekehrt);
+    border-color: var(--flaeche-umgekehrt);
+}
+/* Im Bearbeiten-Modus ist die Kachel selbst keine Bedienung */
+.kachel-flaeche .zeile.ruhig {
+    cursor: default;
+}
+@media (hover: hover) {
+    .kachel-flaeche .zeile.ruhig:hover {
+        background: none;
+    }
+}
+/* Große Schrift: die drei Knöpfe untereinander */
+:root[data-schrift="gross"] .kachel-aktionen {
+    grid-template-columns: 1fr;
+}
+.rueckgaengig {
+    position: fixed;
+    z-index: 20;
+    inset-inline: var(--a-4);
+    inset-block-end: calc(var(--dock-hoehe) + var(--a-3));
+    display: flex;
+    align-items: center;
+    gap: var(--a-3);
+    padding-block: var(--a-3);
+    padding-inline: var(--a-5) var(--a-3);
+    border-radius: var(--r-knopf);
+    background: var(--tinte);
+    color: var(--grund);
+    box-shadow: var(--schatten-karte);
+}
+/* Fokusring auf der umgekehrten Leiste in der Farbe des Grunds (Kontrast wie überall) */
+.rueckgaengig :focus-visible {
+    outline-color: var(--grund);
+}
+:root[data-schrift="gross"] .rueckgaengig {
+    flex-wrap: wrap;
+}
+.rueckgaengig > span {
+    flex: 1 1 auto;
+    min-inline-size: 0;
+}
+.rueckgaengig-knopf {
+    flex: none;
+    min-block-size: var(--tippflaeche);
+    min-inline-size: var(--tippflaeche);
+    padding: 0 var(--a-3);
+    border: 0;
+    border-radius: var(--r-klein);
+    background: var(--akzent-hell);
+    color: var(--akzent);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+@media (prefers-reduced-motion: no-preference) {
+    .kachel-flaeche {
+        transition: transform 0.18s ease-out;
+    }
+    .kachel.wischen .kachel-flaeche,
+    .kachel.angehoben .kachel-flaeche {
+        transition: none;
+    }
+    .zeilen.sortieren > .kachel:not(.angehoben) {
+        transition: transform 0.18s ease-out;
+    }
+}
